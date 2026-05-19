@@ -1,0 +1,19 @@
+{
+  "competitors": [
+    {
+      "name": "Competitor A",
+      "url": "https://www.competitora.com",
+      "category": "Direct competitor"
+    },
+    {
+      "name": "Competitor B",
+      "url": "https://www.competitorb.com",
+      "category": "Indirect competitor"
+    },
+    {
+      "name": "Competitor C",
+      "url": "https://www.competitorc.com",
+      "category": "Market leader"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "casino-skilo",
+  "version": "0.1.0",
+  "description": "AI Product Skills Kit — context-aware workflows for PMs (tickets, PRDs, experiments, discovery, competitor research, UX copy).",
+  "author": {
+    "name": "CasinoSkilo Team"
+  },
+  "keywords": ["product-management", "skills", "jira", "confluence", "prd"]
+}

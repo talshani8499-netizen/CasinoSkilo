@@ -1,0 +1,29 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Env / secrets
+.env
+.env.*
+*.local
+
+# Node (defensive — no JS expected, but in case)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Team-specific data — keep `.example.json` in repo, ignore real configs
+skills/competitor-research/competitors.json
+
+# Logs
+*.log
+
+# Claude local state
+.claude/local/

@@ -8,14 +8,13 @@ CasinoSkilo is a Claude Code plugin containing product-management workflows. Eac
 
 ---
 
-## MVP — 4 skills
+## MVP — 3 skills
 
 | Skill | Output | Best for |
 |---|---|---|
-| `ticket-builder` | Jira-ready ticket (user story, scope, flow, edge cases, DoD, analytics) | Turning a request into a ticket engineering can pick up |
-| `prd-writer` | Full PRD adapted to idea maturity | Initial ideas, clear directions, or existing-feature iterations |
-| `product-discovery` | Discovery brief ending in Proceed / Research More / Park | Pre-commit thinking on raw ideas and stakeholder requests |
-| `competitor-research` | Comparison report with gaps, opportunities, suggested tickets | Pre-PRD market input, redesigns, positioning |
+| `ticket-builder` | Jira-ready ticket (user story, description, ASCII flow, DoD) + "Ready To Gamble On It?" handoff that can push to Jira via MCP | Turning a request into a ticket engineering can pick up |
+| `prd-writer` | Full PRD adapted to idea maturity + handoff that can publish to Confluence (PKB) and optionally chain `ticket-builder` to spin up the epic + child tickets | Initial ideas, clear directions, or existing-feature iterations |
+| `competitor-research` | Lean 7-section comparison report (with optional Playwright screenshots) + handoff that publishes to Confluence | Pre-PRD market input, redesigns, positioning |
 
 ## Deferred (`skills-deferred/`)
 
@@ -23,6 +22,7 @@ Not loaded at runtime — kept in the repo for future activation.
 
 | Skill | Status |
 |---|---|
+| `product-discovery` | Deferred from MVP. Move back to `skills/` to enable. |
 | `experiment-planner` | Deferred from MVP. Move back to `skills/` to enable. |
 | `ux-copy` | Deferred from MVP. Move back to `skills/` to enable. |
 
@@ -72,7 +72,9 @@ Skills work without MCP — they'll just skip the context-gathering step and ask
 
 ## Status
 
-**v0.1.0 — lean scaffold.** Each skill ships with the structure, guided questions, output template, and quality rules from the spec. The kit is intentionally lean so each skill can be **hand-refined** with company-specific tone, terminology, and examples before going live. See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for the refinement workflow.
+**v1.0.0 — first production release for the Product department.** Three skills, hand-refined and tested. Each integrates with Atlassian (Jira + Confluence) via MCP when connected; falls back gracefully to saved markdown files when MCP isn't available.
+
+Three more skills (`product-discovery`, `experiment-planner`, `ux-copy`) are parked in `skills-deferred/` for later activation. See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for how to refine an existing skill or activate a deferred one.
 
 ---
 

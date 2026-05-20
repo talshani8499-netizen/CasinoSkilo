@@ -10,14 +10,23 @@ This kit ships as a **lean v1 scaffold**. Each skill is structured the way it wi
 CasinoSkilo/
 ├── .claude-plugin/
 │   └── plugin.json          # bump version here when you ship changes
-├── skills/
+├── skills/                  # active skills — auto-loaded by Claude Code
 │   └── <skill-name>/
 │       ├── SKILL.md         # the skill (frontmatter + body)
 │       └── <supporting>     # optional templates, configs, examples
+├── skills-deferred/         # parked skills — not loaded; move back to skills/ to enable
 ├── README.md
 ├── CONTRIBUTING.md
 └── LICENSE
 ```
+
+## Activating a deferred skill
+
+Move it back into `skills/`:
+```
+git mv skills-deferred/<skill-name> skills/<skill-name>
+```
+Bump the version in `.claude-plugin/plugin.json` and commit.
 
 ---
 

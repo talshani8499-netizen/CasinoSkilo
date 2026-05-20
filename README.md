@@ -2,22 +2,29 @@
 
 **AI Product Skills Kit — context-aware Claude Code skills for Product Managers.**
 
-CasinoSkilo is a Claude Code plugin containing six product-management workflows. Each skill scans internal company context (Jira/Confluence via MCP), asks guided multiple-choice questions, and returns a structured artifact that can be pasted directly into Jira, Confluence, or Slack.
+CasinoSkilo is a Claude Code plugin containing product-management workflows. Each skill scans internal company context (Jira/Confluence via MCP), asks guided multiple-choice questions, and returns a structured artifact that can be pasted directly into Jira, Confluence, or Slack.
 
 > These are not prompts. They are reusable product workflows that turn company knowledge into better product execution.
 
 ---
 
-## The 6 skills
+## MVP — 4 skills
 
 | Skill | Output | Best for |
 |---|---|---|
 | `ticket-builder` | Jira-ready ticket (user story, scope, flow, edge cases, DoD, analytics) | Turning a request into a ticket engineering can pick up |
 | `prd-writer` | Full PRD adapted to idea maturity | Initial ideas, clear directions, or existing-feature iterations |
-| `experiment-planner` | A/B test plan with hypothesis, metrics, Optimizely-vs-dev classification | Designing experiments before kicking off implementation |
 | `product-discovery` | Discovery brief ending in Proceed / Research More / Park | Pre-commit thinking on raw ideas and stakeholder requests |
 | `competitor-research` | Comparison report with gaps, opportunities, suggested tickets | Pre-PRD market input, redesigns, positioning |
-| `ux-copy` | Multiple tone variants + full UI copy set | CTAs, errors, empty states, tooltips, onboarding |
+
+## Deferred (`skills-deferred/`)
+
+Not loaded at runtime — kept in the repo for future activation.
+
+| Skill | Status |
+|---|---|
+| `experiment-planner` | Deferred from MVP. Move back to `skills/` to enable. |
+| `ux-copy` | Deferred from MVP. Move back to `skills/` to enable. |
 
 ---
 

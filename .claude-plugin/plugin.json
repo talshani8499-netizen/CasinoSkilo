@@ -1,9 +1,15 @@
 {
   "name": "casino-skilo",
-  "version": "0.2.2",
-  "description": "AI Product Skills Kit — context-aware workflows for PMs. MVP includes ticket-builder, prd-writer, product-discovery, and competitor-research.",
+  "version": "0.2.3",
+  "description": "AI Product Skills Kit \u2014 context-aware workflows for PMs. MVP includes ticket-builder, prd-writer, product-discovery, and competitor-research.",
   "author": {
     "name": "CasinoSkilo Team"
   },
-  "keywords": ["product-management", "skills", "jira", "confluence", "prd"]
+  "keywords": [
+    "product-management",
+    "skills",
+    "jira",
+    "confluence",
+    "prd"
+  ]
 }

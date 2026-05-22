@@ -30,19 +30,20 @@ Not loaded at runtime — kept in the repo for future activation.
 
 ## Install
 
-### From a private GitHub repo (recommended)
+In Claude Code, run these two slash commands:
+
 ```
-/plugin marketplace add <your-org>/CasinoSkilo
+/plugin marketplace add talshani8499-netizen/CasinoSkilo
 /plugin install casino-skilo@CasinoSkilo
 ```
+
+If the skills don't show up immediately, run `/reload-plugins`. Verify with `/skill` — three skills (`ticket-builder`, `prd-writer`, `competitor-research`) should be listed.
 
 ### From a local checkout (for refinement / testing)
 ```
 /plugin marketplace add /path/to/CasinoSkilo
 /plugin install casino-skilo@CasinoSkilo
 ```
-
-Verify with `/skill` — six skills should be listed.
 
 ---
 

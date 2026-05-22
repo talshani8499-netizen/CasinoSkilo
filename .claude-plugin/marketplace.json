@@ -1,0 +1,29 @@
+{
+  "name": "CasinoSkilo",
+  "description": "AI Product Skills Kit — context-aware Claude Code skills for Product Managers.",
+  "owner": {
+    "name": "talshani8499-netizen",
+    "url": "https://github.com/talshani8499-netizen"
+  },
+  "plugins": [
+    {
+      "name": "casino-skilo",
+      "source": "./",
+      "description": "AI Product Skills Kit — context-aware workflows for PMs. v1 MVP: ticket-builder, prd-writer, competitor-research.",
+      "version": "1.0.0",
+      "author": {
+        "name": "CasinoSkilo Team"
+      },
+      "category": "product-management",
+      "keywords": [
+        "product-management",
+        "skills",
+        "jira",
+        "confluence",
+        "prd"
+      ],
+      "homepage": "https://github.com/talshani8499-netizen/CasinoSkilo",
+      "repository": "https://github.com/talshani8499-netizen/CasinoSkilo"
+    }
+  ]
+}

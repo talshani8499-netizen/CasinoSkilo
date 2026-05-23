@@ -10,7 +10,7 @@
       "name": "casino-skilo",
       "source": "./",
       "description": "AI Product Skills Kit — context-aware workflows for PMs. v1 MVP: ticket-builder, prd-writer, competitor-research.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "CasinoSkilo Team"
       },

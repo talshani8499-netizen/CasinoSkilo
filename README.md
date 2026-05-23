@@ -73,9 +73,9 @@ Skills work without MCP — they'll just skip the context-gathering step and ask
 
 ## Status
 
-**v1.0.0 — first production release for the Product department.** Three skills, hand-refined and tested. Each integrates with Atlassian (Jira + Confluence) via MCP when connected; falls back gracefully to saved markdown files when MCP isn't available.
+**v1.1.0 — production-ready.** Three skills, hand-refined against a 144-case behavioral test catalog (100% PASS). Each integrates with Atlassian (Jira + Confluence) via MCP when connected; falls back gracefully to saved markdown files when MCP isn't available.
 
-Three more skills (`product-discovery`, `experiment-planner`, `ux-copy`) are parked in `skills-deferred/` for later activation. See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for how to refine an existing skill or activate a deferred one.
+See [`CHANGELOG.md`](./CHANGELOG.md) for the full release history. Three more skills (`product-discovery`, `experiment-planner`, `ux-copy`) are parked in `skills-deferred/` for later activation. See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for how to refine an existing skill or activate a deferred one.
 
 ---
 

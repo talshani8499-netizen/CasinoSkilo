@@ -1,0 +1,39 @@
+id: TB-049
+category: handoff
+title: "PRD-driven mode — thin §12 row 'Misc — TBD' defaults to type Task with inline Open flag"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [194, 194]
+preconditions:
+  user_input: "build child ticket from PRD §12 row 7"
+  jira_context: |
+    PR-484 / open / "VIP Sidekick chat program v1" / component: integrations / status: in progress
+  confluence_context: |
+    Page: "VIP Sidekick chat PRD v1" / parent: PR-484
+  active_memory: null
+  mcp_state: atlassian
+  prior_artifacts: |
+    # VIP Sidekick Chat Program v1 — PRD
+
+    ## 8. Requirements
+    ### Functional
+    - FR-1: Surface Sidekick chat handoff CTA in components/home/banner.tsx
+    - FR-2: Extend existing Sidekick engine integration (PR-499)
+
+    ## 12. Suggested Jira Breakdown
+    Sub-epic: VIP Sidekick chat program v1 (PR-484)
+    | # | Title | Component |
+    |---|---|---|
+    | 1 | Sidekick chat handoff CTA on casino home | home |
+    | 2 | Smartico segment wiring for first_time_depositor cohort | integrations |
+    | 7 | Misc — TBD | — |
+  invoking_skill: "prd-writer:double-down"
+  parent_jira_epic: "PR-484"
+pass_criteria:
+  - id: prd-driven-mode-zero-questions
+  - id: prd-driven-mode-thin-row-default
+    expected_ticket_type: "Task"
+    expected_open_line_substring: "ticket type not inferable from PRD §12"
+  - id: prd-driven-mode-auto-bet-on-it
+    parent_epic_key_expected: "PR-484"
+notes: "Line 194: in PRD-driven mode, when the §12 row is too thin to infer a ticket type (e.g. 'Misc — TBD'), default to type Task AND surface an inline blockquote in the Description: '> **Open:** ticket type not inferable from PRD §12 — confirm with owner.' Phase B and Phase C remain skipped; handoff still auto-Bet-on-it."

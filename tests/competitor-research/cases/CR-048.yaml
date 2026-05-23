@@ -1,0 +1,36 @@
+id: CR-048
+category: edge-case
+title: "Playwright unavailable degrades gracefully — mcp_state: none produces text-only report; §1 notes 'Playwright not available'"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [127, 208]
+preconditions:
+  user_input: "detailed competitor comparison on pricing and bonuses"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake (https://stake.com), 1Xbet (https://1xbet.com), Rollbit (https://rollbit.com), Bc.Game (https://bc.game)
+  mcp_state: none
+pass_criteria:
+  - id: cr-playwright-unavailable-degrades-gracefully
+  - id: cr-research-scope-notes-playwright-status
+    expected_substring_any_of:
+      - "Playwright not available"
+      - "no screenshots captured"
+  - id: cr-has-7-sections
+  - id: cr-screenshots-inline-not-separate-section
+    inline_pattern: "![*](screenshots/*.png)"
+    banned_section: "Screenshots"
+notes: |
+  Split from old bundled CR-040 sub-rule 3 (SKILL.md lines 127–134 + 208):
+  When no Playwright MCP is connected, the skill MUST:
+    - Still produce the full 7-section report (text-only).
+    - Note Playwright availability in §1 Research Scope with a substring like
+      "Playwright not available — no screenshots captured" (or equivalent per L208).
+    - Omit screenshot references in §5 UX Flow Notes — no broken
+      ![](screenshots/...) links; §5 either skips them entirely or marks them N/A.
+    - Not invent a separate "Screenshots" section just to say none exist.
+
+  This is the degradation case — verifies the skill stays useful in MCP-less environments
+  (e.g. PMs running it from a stripped-down workstation without Playwright installed).

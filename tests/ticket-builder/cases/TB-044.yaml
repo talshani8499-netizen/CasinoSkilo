@@ -1,0 +1,22 @@
+id: TB-044
+category: output-structure
+title: "Definition of Done hard cap enforced — input that would naïvely produce 8 items is trimmed to ≤5"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [155, 155]
+preconditions:
+  user_input: "deposit modal is broken on iOS — auth token isn't being refreshed before the payment call, players see a generic error, the failed attempt isn't surfacing in the VIP team's CS dashboard, and finance reporting for GGR is double-counting the rolled-back transactions on the MGA jurisdiction"
+  jira_context: |
+    PR-705 / open / "Deposit modal v3" / component: payments / file: components/payments/depositModal.tsx
+    PR-706 / open / "Auth token refresh race" / component: auth / status: in progress
+    PR-707 / closed / "CS dashboard failed-attempt feed" / component: cs-tools
+    PR-708 / open / "GGR reporting reconciliation" / component: reporting / jurisdiction: MGA
+  confluence_context: |
+    Page: "Curacao vs MGA reporting differences" / decision: rolled-back deposits must be excluded from GGR for MGA
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: dod-item-count-within-cap
+    min: 3
+    max: 5
+notes: "Line 155: DoD hard cap is 3–5 items, never 6+. This multi-component bug touching auth + payments + CS tools + GGR reporting would naïvely produce 8 DoD items. The skill must trim non-essential items down to ≤5 — the ticket is not a QA test plan."

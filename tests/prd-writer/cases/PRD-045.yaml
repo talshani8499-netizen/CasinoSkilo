@@ -1,0 +1,22 @@
+id: PRD-045
+category: phase-a-inference
+title: "Phase A conflict rule — input 'v2 of raffles from scratch' leaves Maturity Not inferred"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [52, 55]
+preconditions:
+  user_input: "We're building v2 of raffles from scratch — the old flow is so broken we want to throw it away"
+  jira_context: |
+    PR-310 / closed / "Raffles v1" / epic / squad: promotions
+  confluence_context: null
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: phase-a-does-not-infer-field
+    field: "Maturity"
+  - id: phase-b-asks
+    questions: ["Maturity"]
+  - id: phase-b-options-match-spec
+    question: "Maturity"
+    expected_options: ["Initial idea", "Clear direction", "Existing feature"]
+notes: "v1.1.0 conflict rule (L52): when signals from multiple rows fire for the same field, mark Not inferred and fall through to Phase B — do not invent a tie-break. 'v2 of' fires Existing feature and 'from scratch' fires Initial idea, so Maturity must NOT be inferred. Phase B must then ask the Maturity question with the 3 spec'd options."

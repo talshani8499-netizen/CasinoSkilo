@@ -1,0 +1,27 @@
+id: TB-042
+category: phase-a-inference
+title: "Phase A infers 'Needs flow diagram = No' from 'bug' + 'config' signals; §User Flow is omitted entirely"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [61, 150]
+preconditions:
+  user_input: "bug: the Smartico loyalty config toggle for S1 tier is being ignored — back-office config change isn't propagating"
+  jira_context: |
+    PR-602 / open / "VIP cashback v2" / component: vip / status: in QA
+    PR-611 / closed / "Smartico tier config wiring" / component: integrations
+  confluence_context: null
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: phase-a-infers-field
+    field: "Needs flow diagram"
+    expected_value: "No"
+    must_cite_phrase: "bug"
+  - id: inferred-includes-field
+    field: "Needs flow diagram"
+    expected_value: "No"
+    must_cite_phrase: "bug"
+  - id: output-omits-banned-sections
+    banned_sections:
+      - "User Flow"
+notes: "Signal table (line 61): both 'bug' and 'config' map to Needs flow diagram = No. Template (line 150): when No, the entire §User Flow heading and code block must be omitted — NOT rendered as 'N/A' or as an empty section."

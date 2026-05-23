@@ -1,0 +1,35 @@
+id: CR-041
+category: phase-a-inference
+title: "Phase A canonical memory reuse — memory has **Competitors:** line; Phase A infers Competitors; Phase B skipped"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [69, 69]
+preconditions:
+  user_input: "give me a competitor scan focused on signup flow"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake (https://stake.com), 1Xbet (https://1xbet.com), Rollbit (https://rollbit.com), Bc.Game (https://bc.game)
+  mcp_state: none
+pass_criteria:
+  - id: phase-a-infers-field
+    field: "Competitors"
+    expected_value: "Stake, 1Xbet, Rollbit, Bc.Game"
+    must_cite_phrase: "~/.claude/memory/"
+  - id: phase-b-skips
+    questions: ["Competitors"]
+  - id: inferred-block-present
+    must: true
+  - id: inferred-includes-field
+    field: "Competitors"
+    expected_value: "Stake, 1Xbet, Rollbit, Bc.Game"
+    must_cite_phrase: "memory"
+notes: |
+  Canonical memory-reuse path (SKILL.md line 69):
+  "If active product memory (~/.claude/memory/<project-slug>.md) has a **Competitors:** line
+   → infer here and skip the Phase B Competitors question entirely."
+
+  This case verifies the PRIMARY reuse path. The fallback path (memory empty + user didn't
+  name competitors → Phase B asks the question with the 3 spec'd options) is covered by CR-046
+  as a negative-control sibling.

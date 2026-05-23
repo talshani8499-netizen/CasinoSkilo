@@ -1,0 +1,31 @@
+id: PRD-044
+category: phase-a-inference
+title: "Phase A applies GGR `revenue` sub-tag in §10 Primary Metric when input mentions 'NGR' / 'ARPU'"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [58, 58]
+preconditions:
+  user_input: "We need to lift NGR by 8% via longer VIP session length — likely a Sidekick engine tweak on the live casino lobby"
+  jira_context: |
+    PR-612 / open / "VIP ARPU lift initiatives" / squad: vip
+  confluence_context: null
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: phase-a-infers-field
+    field: "Success"
+    expected_value: "Conversion"
+    must_cite_phrase: "NGR"
+  - id: inferred-block-present
+    must: true
+  - id: inferred-includes-field
+    field: "Success"
+    expected_value: "Conversion"
+    must_cite_phrase: "NGR"
+  - id: analytics-primary-metric-has-revenue-tag
+    section: "10. Analytics & Success Metrics"
+    subsection: "Primary Metric"
+    expected_substring_any_of: ["[revenue]", "NGR lift", "ARPU"]
+  - id: phase-b-skips
+    questions: ["Success"]
+notes: "v1.1.0 GGR-specific sub-tag (L58): GGR/NGR/revenue lift/ARPU signals → Success inferred as Conversion WITH a `revenue` sub-tag surfaced in §10 Primary Metric (e.g. 'NGR lift [revenue]'). The tag must be visible in the rendered §10 Analytics section, not buried only in the Inferred block."

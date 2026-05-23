@@ -1,6 +1,6 @@
 # prd-writer Test Coverage Map
 
-40 cases under `tests/prd-writer/cases/`, mapped to SKILL.md line ranges they exercise.
+47 cases under `tests/prd-writer/cases/`, mapped to SKILL.md line ranges they exercise.
 
 | Case ID  | Category               | Title                                                                                              | SKILL.md lines |
 |----------|------------------------|----------------------------------------------------------------------------------------------------|----------------|
@@ -44,3 +44,10 @@
 | PRD-038  | handoff                | Double down + no MCP → same fallback message as Bet on it                                          | 200            |
 | PRD-039  | quality                | PRD uses company terminology from context (PR-266, PR-280, Smartico, PS Admin Panel)               | 90–178         |
 | PRD-040  | edge-case              | Thin §12 row ('Misc — TBD') → chained ticket defaults to Task with Open flag                       | 204            |
+| PRD-041  | phase-a-inference      | Main problem inferred as Retention / re-engagement from 're-engage lapsed' signal (v1.1.0)         | 57, 80         |
+| PRD-042  | phase-a-inference      | Main user surfaces `vip` sub-tag in User Story when input names VIP players (v1.1.0)               | 56             |
+| PRD-043  | phase-a-inference      | Main user surfaces `crm` sub-tag in User Story when input names CRM operator + lifecycle (v1.1.0)  | 56             |
+| PRD-044  | phase-a-inference      | GGR `revenue` sub-tag surfaces in §10 Primary Metric when input mentions NGR / ARPU (v1.1.0)       | 58             |
+| PRD-045  | phase-a-inference      | Conflict rule — 'v2 of raffles from scratch' leaves Maturity Not inferred (v1.1.0)                 | 52             |
+| PRD-046  | handoff                | Double-down chain with 26+ §12 rows triggers chain-too-long question BEFORE any Jira call (v1.1.0) | 208–214        |
+| PRD-047  | handoff                | Confluence parentId 404 → retry without parentId, report space-root the page landed at (v1.1.0)    | 189            |

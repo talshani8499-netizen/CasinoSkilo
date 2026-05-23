@@ -606,3 +606,186 @@ When multiple material unknowns exist, Phase C picks them in CR-specific priorit
 - id: cr-research-scope-notes-playwright-status
   expected_substring_any_of: ["Playwright not available", "Playwright connected", "screenshots captured"]
 ```
+
+---
+
+## L — Static checks (pre-runner)
+
+These checks run on the SKILL.md file directly, before the runner sub-agent is dispatched. They catch issues that the LLM-graded stage might miss (e.g. confusing the body's `## Purpose` header with the frontmatter `description:` field, which caused a v1.0.0 judge misread on CR-002). Each case can mix static and behavioral criteria.
+
+### `static-frontmatter-parses-as-yaml`
+The SKILL.md frontmatter block (between the first two `---` lines at the top of the file) parses as valid YAML and contains at least `name:` and `description:` fields.
+```yaml
+- id: static-frontmatter-parses-as-yaml
+```
+
+### `static-description-starts-with-use-when`
+The frontmatter `description:` value (NOT the body's `## Purpose` section, NOT the `# <Skill Title>` H1) begins with the literal phrase `Use when`.
+```yaml
+- id: static-description-starts-with-use-when
+```
+
+### `static-description-includes-output-noun`
+The frontmatter `description:` value contains the skill's canonical output noun phrase, so Claude can match user intent.
+```yaml
+- id: static-description-includes-output-noun
+  expected_phrase: "Jira-ready ticket"   # or "PRD", or "7-section comparison report"
+```
+
+### `static-required-h2-headings-present`
+The SKILL.md body contains all the required H2 headings for this skill. Header text is compared case-sensitively. Order is NOT enforced (the spec evolves), only presence.
+```yaml
+- id: static-required-h2-headings-present
+  required_headings:
+    - "Purpose"
+    - "When to use"
+    - "Context to gather"
+    - "Adaptive questions"
+    - "Output"
+    - "Quality rules"
+```
+
+---
+
+## M — ticket-builder v1.1.0 additions
+
+These assertion IDs backfill coverage for behaviors introduced in `ticket-builder` v1.1.0: the `Needs flow diagram` 5th Phase A field with its Phase C fallback, the Definition of Done hard cap, the `Inferred (not asked)` 4-bullet cap with overflow marker, the exact `Assumption / Flag` inline syntax, and PRD-driven mode (no questions, auto Bet on it, thin-row Task default).
+
+### `dod-item-count-within-cap`
+The artifact's `## Definition of Done` section contains a number of bullet items within the spec'd min/max range. The skill spec caps DoD at 3–5 items — never 6+ — and requires naming the gap if fewer than 3 essential items exist.
+```yaml
+- id: dod-item-count-within-cap
+  min: 3
+  max: 5
+```
+
+### `inferred-block-cap-respected`
+The `> **Inferred (not asked):**` block contains at most `max_bullets` bullets. When Phase A inferred more than `max_bullets` fields, an italic overflow marker line of the form `_(+N more inferred — see context for full set)_` MUST appear immediately below the bullets. Priority order for which bullets to keep when trimming: Ticket type > Connection > Main user > Main goal > Needs flow diagram.
+```yaml
+- id: inferred-block-cap-respected
+  max_bullets: 4
+  overflow_marker_required: true
+  priority_order:
+    - "Ticket type"
+    - "Connection"
+    - "Main user"
+    - "Main goal"
+    - "Needs flow diagram"
+```
+
+### `assume-flag-syntax-format`
+When the skill falls back to inline assume + flag (Phase C rule 6), the line MUST match the exact spec format: a blockquote line beginning with `> **Assumption:** `, followed by the statement, followed by ` **Flag:** `, followed by the one-line reason. Placed inside the relevant Description or DoD bullet — never in a separate section.
+```yaml
+- id: assume-flag-syntax-format
+  expected_pattern: '> \*\*Assumption:\*\* .+ \*\*Flag:\*\* .+'
+```
+
+### `prd-driven-mode-zero-questions`
+When `invoking_skill: prd-writer:double-down` is set in preconditions, the chained ticket-builder run emits zero user-facing questions across Phase B AND Phase C (including the `Needs flow diagram` fallback). AskUserQuestion is not called.
+```yaml
+- id: prd-driven-mode-zero-questions
+```
+
+### `prd-driven-mode-auto-bet-on-it`
+In PRD-driven mode, the handoff auto-chooses `Bet on it` and does NOT call AskUserQuestion for `Ready To Gamble On It?`. The parent epic key supplied by prd-writer is used directly on the Jira create call.
+```yaml
+- id: prd-driven-mode-auto-bet-on-it
+  parent_epic_key_expected: "PR-484"
+```
+
+### `prd-driven-mode-thin-row-default`
+In PRD-driven mode, when the §12 row text is too thin for Phase A to infer a ticket type (e.g. `Misc — TBD`), the ticket defaults to type `Task` AND the Description contains an inline blockquote line of the form `> **Open:** ticket type not inferable from PRD §12 — confirm with owner.`
+```yaml
+- id: prd-driven-mode-thin-row-default
+  expected_ticket_type: "Task"
+  expected_open_line_substring: "ticket type not inferable from PRD §12"
+```
+
+---
+
+## N — prd-writer v1.1.0 additions
+
+These assertions cover prd-writer v1.1.0 behaviors: Phase A sub-segment tagging (vip / crm), GGR revenue sub-tag surfacing in §10, the Double-down chain hard cap (25 children), and the Confluence parentId 404 retry-without-parent fallback.
+
+### `phase-a-sub-segment-tag-applied`
+When Phase A infers `Main user` and the input also matches a sub-segment hint (L56: VIP / high-roller / whale → `vip`; CRM operator / campaign manager / lifecycle → `crm`), the rendered §6 User Story line MUST surface the tag verbatim. The Inferred (not asked) block alone is NOT sufficient — the tag must appear in the User Story `As a …` clause (e.g. `As a VIP player (vip-tier ≥ 2), I want…` or `As a CRM operator, I want…`).
+```yaml
+- id: phase-a-sub-segment-tag-applied
+  tag: "vip"                                     # or "crm"
+  expected_user_story_substring: "As a VIP player"
+```
+
+### `analytics-primary-metric-has-revenue-tag`
+When Phase A infers `Success = Conversion` with the GGR `revenue` sub-tag (L58: GGR / NGR / revenue lift / ARPU signals), the named PRD section/subsection MUST surface the revenue tag verbatim — typically `## 10. Analytics & Success Metrics → ### Primary Metric` with text such as `NGR lift [revenue]`, `ARPU lift`, or the `[revenue]` marker on the primary KPI bullet. Surfacing the tag only in the Inferred block is NOT sufficient.
+```yaml
+- id: analytics-primary-metric-has-revenue-tag
+  section: "10. Analytics & Success Metrics"
+  subsection: "Primary Metric"
+  expected_substring_any_of: ["[revenue]", "NGR lift", "ARPU"]
+```
+
+### `double-down-chain-cap-question-fires`
+When the user picks Double down and §12 of the PRD contains 26 or more child ticket rows (exceeding the 25-cap on L208), the skill MUST emit the spec'd AskUserQuestion BEFORE any Confluence-create or Jira-create-issue MCP call. The question text mentions the actual child count and the cap; the header is `Chain too long?`; the three options are `Split the PRD`, `Bet on it instead`, and `Cancel` (verbatim). The trace MUST show zero `mcp__*` create-issue / create-page calls preceding the question.
+```yaml
+- id: double-down-chain-cap-question-fires
+  expected_question_substring: "exceeds the Double-down chain cap of 25"
+  expected_header: "Chain too long?"
+  expected_options: ["Split the PRD", "Bet on it instead", "Cancel"]
+  no_create_calls_before_question: true
+```
+
+### `confluence-parentid-404-retry-fallback`
+When the first Confluence create-page call (with `parentId=772571521`) returns HTTP 404, the skill MUST retry exactly once WITHOUT the `parentId` parameter (L189), then report to the user which space-root the page landed at. The trace MUST show: (1) first call includes `parentId`, (2) second call omits `parentId`, (3) the user-facing message names the space-root (e.g. mentions `PKB space root` or the `/spaces/PKB/` URL fragment).
+```yaml
+- id: confluence-parentid-404-retry-fallback
+  first_call_includes_parentid: true
+  first_call_parentid: "772571521"
+  second_call_omits_parentid: true
+  expected_report_substring_any_of: ["PKB space root", "without parentId", "/spaces/PKB/"]
+```
+
+---
+
+## O — competitor-research v1.1.0 additions
+
+These assertion IDs backfill coverage for behaviors introduced in `competitor-research` v1.1.0 / v1.2.0: the explicit 3-option memory-differs confirmation question, the `<focus-slug>/<focus-slug>-<date>.md` co-located save path, the post-Bet-on-it Confluence-attachment offer, and the HTTP 403/451/CAPTCHA inline-note format (replacing the v1.0.0 robots.txt framing).
+
+### `cr-memory-differs-three-option-question`
+When runtime competitor input differs from the cached `**Competitors:**` line in `~/.claude/memory/<project-slug>.md`, the skill emits exactly one AskUserQuestion with the spec'd header (`Competitors?`) and the exact 3 spec'd options verbatim: `Use cached`, `Use runtime + update memory`, `Use runtime, keep memory`. The question text matches the spec'd phrasing about the cached list differing from runtime input.
+```yaml
+- id: cr-memory-differs-three-option-question
+  expected_header: "Competitors?"
+  expected_options:
+    - "Use cached"
+    - "Use runtime + update memory"
+    - "Use runtime, keep memory"
+```
+
+### `cr-markdown-saved-in-focus-subdir`
+The markdown report is saved at `~/Downloads/competitor-research/<focus-slug>/<focus-slug>-<YYYY-MM-DD>.md` (NOT flat in `competitor-research/`). The `<focus-slug>` parent directory is created if missing, and a sibling `screenshots/` subdir co-exists in the same parent so the §5 relative `![](screenshots/<file>.png)` references resolve from the markdown's directory.
+```yaml
+- id: cr-markdown-saved-in-focus-subdir
+  expected_pattern: "~/Downloads/competitor-research/<focus-slug>/<focus-slug>-<YYYY-MM-DD>.md"
+  sibling_dir_required: "screenshots"
+```
+
+### `cr-confluence-attachment-offer-fires`
+After the user picks `Bet on it`, the Confluence page is created, and N ≥ 1 screenshots exist in the `screenshots/` subdir, the skill emits one bonus AskUserQuestion with the spec'd header (`Attach screenshots?`), question text that includes the actual screenshot count (e.g. `Upload 3 screenshots…`), and the exact 2 spec'd options: `Upload all` and `Upload none`. The question fires AFTER the screenshots-local-only one-line note.
+```yaml
+- id: cr-confluence-attachment-offer-fires
+  expected_header: "Attach screenshots?"
+  expected_question_substring: "Upload <N> screenshots to the Confluence page as attachments"
+  expected_options:
+    - "Upload all"
+    - "Upload none"
+  fires_after: "Bet on it + Confluence page created + N >= 1 screenshots"
+```
+
+### `cr-http-error-noted-inline`
+When Playwright hits a competitor page that returns HTTP 403, 451, or shows a CAPTCHA / bot-detection wall, the skill writes an inline note in §5 UX Flow Notes under the relevant competitor's subheading with the format `couldn't access <page> — <reason>` (e.g. `couldn't access /signup — 451 geoblocked`). The other accessible pages for that competitor still render normally — only the blocked page is skipped, not the whole competitor. Replaces v1.0.0's `cr-robots-txt-blocked-inline-note` framing.
+```yaml
+- id: cr-http-error-noted-inline
+  expected_line_pattern: "couldn't access <page> — <status>"
+  expected_section: "5. UX Flow Notes"
+  competitor_subheading: "<competitor-name>"
+```

@@ -1,0 +1,34 @@
+id: CR-042
+category: phase-a-inference
+title: "Phase A trust-signal keywords — 'trust signals' / 'social proof' / 'reviews' → Focus = Core feature experience (trust surface)"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [68, 68]
+preconditions:
+  user_input: "compare trust signals across competitors — homepage badges and Trustpilot scores"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: none
+pass_criteria:
+  - id: phase-a-infers-field
+    field: "Focus"
+    expected_value: "Core feature experience"
+    must_cite_phrase: "trust signals"
+  - id: phase-b-skips
+    questions: ["Focus"]
+  - id: inferred-block-present
+    must: true
+  - id: inferred-includes-field
+    field: "Focus"
+    expected_value: "Core feature experience"
+    must_cite_phrase: "trust signals"
+notes: |
+  Phase A Focus signal table (SKILL.md line 68): "trust signals", "social proof", "reviews",
+  "ratings", "badges" → Core feature experience (trust surface).
+
+  Trust is a named surface, not its own first-class Focus value — the spec routes it through
+  "Core feature experience" with the (trust surface) qualifier. The Inferred block bullet
+  should cite the exact triggering phrase "trust signals" from the user input.

@@ -1,0 +1,22 @@
+id: TB-047
+category: phase-a-inference
+title: "Phase A conflict rule — 'fix the new feature on iOS' leaves Ticket type Not inferred"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [53, 53]
+preconditions:
+  user_input: "fix the new feature on iOS — the post-signup Sidekick chat handoff isn't loading for first-time players"
+  jira_context: |
+    PR-499 / open / "Sidekick chat engine integration" / component: integrations / status: in progress
+  confluence_context: null
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: phase-a-does-not-infer-field
+    field: "Ticket type"
+  - id: phase-a-resolves-conflict
+    field: "Ticket type"
+    acceptable_outcomes: ["<not inferred>"]
+  - id: phase-b-asks
+    questions: ["Ticket type"]
+notes: "Line 53 conflict rule: when signals from multiple rows fire for the same field (here 'fix' → Bug AND 'new feature' → Feature), Phase A must mark the field as Not inferred and fall through to Phase B. The skill must NOT invent a tie-break. Phase B then asks the Ticket type question."

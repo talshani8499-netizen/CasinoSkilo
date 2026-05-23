@@ -1,0 +1,42 @@
+id: PRD-047
+category: handoff
+title: "Confluence parentId 404 → retry without parentId, report which space-root the page landed at"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [189, 189]
+preconditions:
+  user_input: "PRD for a small CRM lifecycle tweak in the Smartico console. Bet on it at handoff."
+  jira_context: |
+    PR-805 / open / "Smartico campaign console UX" / component: admin-panel
+  confluence_context: |
+    page: "PKB overview" / spaceId=772571142 / parentId=772571521
+  active_memory: null
+  mcp_state: atlassian
+  prior_artifacts: |
+    # CRM Lifecycle — Recency Segment Tweak
+
+    > **Inferred (not asked):**
+    > - Main user: **Admin / internal** (`crm` tag — cited: "CRM lifecycle")
+
+    ## 1. Overview
+    Let CRM operators segment by deposit recency in the Smartico console.
+
+    ## 12. Suggested Jira Breakdown
+    **Sub-epic:** PR-805-child — "CRM Recency Segment"
+
+    | # | Title | Type | Component | Notes |
+    |---|---|---|---|---|
+    | 1 | Add recency filter to Smartico segment builder | New feature | admin-panel | clear |
+  simulated_mcp_responses: |
+    First Confluence create call (with parentId=772571521): HTTP 404 — "Parent page moved or deleted".
+    Second Confluence create call (without parentId): HTTP 200 — page created at PKB space root, URL https://21com.atlassian.net/wiki/spaces/PKB/pages/9988776/CRM+Lifecycle+Recency+Segment+Tweak
+pass_criteria:
+  - id: confluence-parentid-404-retry-fallback
+    first_call_includes_parentid: true
+    first_call_parentid: "772571521"
+    second_call_omits_parentid: true
+    expected_report_substring_any_of: ["PKB space root", "without parentId", "/spaces/PKB/"]
+  - id: confluence-call-uses-pkb-params
+  - id: markdown-saved-with-absolute-path
+    folder: "prds"
+notes: "L189: 'If the create fails with HTTP 404 (parent moved/deleted), retry once without parentId and report which space-root the page landed at.' The trace must show: (1) first create call with parentId=772571521 → 404, (2) second create call WITHOUT parentId → 200, (3) the skill's user-facing message naming the space-root the page landed at (PKB). If the second attempt also fails the skill should report the error and confirm the markdown is saved — that secondary path is covered by mcp-create-failure-confirms-markdown-saved in other cases."

@@ -1,0 +1,70 @@
+id: TB-048
+category: handoff
+title: "PRD-driven mode — zero user questions, all 5 inferences cite PRD section, auto Bet on it"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [186, 198]
+preconditions:
+  user_input: "build child ticket from PRD §12 row 3: 'Post-deposit Sidekick chat handoff for first-time depositors on casino home'"
+  jira_context: |
+    PR-484 / open / "VIP Sidekick chat program v1" / component: integrations / status: in progress
+    PR-499 / open / "Sidekick chat engine integration" / component: integrations
+  confluence_context: |
+    Page: "VIP Sidekick chat PRD v1" / parent: PR-484
+  active_memory: null
+  mcp_state: atlassian
+  prior_artifacts: |
+    # VIP Sidekick Chat Program v1 — PRD
+
+    ## 8. Requirements
+    ### Functional
+    - FR-1: When a first-time depositor lands on /home, surface the Sidekick chat handoff CTA in components/home/banner.tsx
+    - FR-2: CTA opens the Sidekick chat widget (extends existing Sidekick engine integration shipped under PR-499)
+    - FR-3: Target audience is end users (players) — S0/S1 tier first-time depositors only
+    - FR-4: Business goal is to drive retention (post-deposit re-engagement) and lift GGR per first-time depositor cohort
+
+    ## 10. Analytics
+    ### Primary
+    - `sidekick_chat_handoff_shown` — fired when CTA renders for eligible cohort
+    ### Tracking
+    - Bound to Smartico user segment `first_time_depositor_S0_S1`
+
+    ## 12. Suggested Jira Breakdown
+    Sub-epic: VIP Sidekick chat program v1 (PR-484)
+    | # | Title | Component |
+    |---|---|---|
+    | 1 | Sidekick chat handoff CTA on casino home | home |
+    | 2 | Smartico segment wiring for first_time_depositor cohort | integrations |
+    | 3 | Post-deposit Sidekick chat handoff for first-time depositors on casino home | home |
+  invoking_skill: "prd-writer:double-down"
+  parent_jira_epic: "PR-484"
+pass_criteria:
+  - id: prd-driven-mode-zero-questions
+  - id: phase-b-skips
+    questions: ["Ticket type", "Main user", "Main goal", "Connection"]
+  - id: phase-c-max-3
+  - id: inferred-block-present
+    must: true
+  - id: inferred-includes-field
+    field: "Ticket type"
+    expected_value: "New feature"
+    must_cite_phrase: "from PRD §12"
+  - id: inferred-includes-field
+    field: "Main user"
+    expected_value: "End user"
+    must_cite_phrase: "from PRD §8 FR-3"
+  - id: inferred-includes-field
+    field: "Main goal"
+    expected_value: "Business need"
+    must_cite_phrase: "from PRD §8 FR-4"
+  - id: inferred-includes-field
+    field: "Connection"
+    expected_value: "Extends"
+    must_cite_phrase: "from PRD §8 FR-2"
+  - id: inferred-includes-field
+    field: "Needs flow diagram"
+    expected_value: "Yes"
+    must_cite_phrase: "from PRD §8"
+  - id: prd-driven-mode-auto-bet-on-it
+    parent_epic_key_expected: "PR-484"
+notes: "Lines 186–198: when invoked by prd-writer Double down, ticket-builder must skip Phase B entirely AND Phase C entirely (including the Needs flow diagram fallback). All 5 core fields are inferred from the PRD body and each Inferred block bullet cites the PRD section it came from. At handoff, auto-choose Bet on it WITHOUT calling AskUserQuestion. Per-chain question count is exactly zero."

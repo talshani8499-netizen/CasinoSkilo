@@ -1,6 +1,6 @@
 # competitor-research Test Coverage Map
 
-40 YAML cases under `cases/`. Each row links one case to its SKILL.md anchor.
+48 YAML cases under `cases/`. Each row links one case to its SKILL.md anchor.
 
 | Case ID | Category | Title | SKILL.md lines |
 |---|---|---|---|
@@ -43,4 +43,12 @@
 | CR-037 | handoff | After Confluence publish, surfaces one-line note: screenshots are local-only | 239 |
 | CR-038 | handoff | Markdown saved to ~/Downloads/competitor-research/<focus-slug>-<YYYY-MM-DD>.md with co-located screenshots subdir | 224 |
 | CR-039 | quality | Findings are specific, cite source, and call out missing/inaccessible pages | 205–220 |
-| CR-040 | edge-case | Memory edge cases: differs (confirm inline) / empty (cache after Phase B) / Playwright off / robots.txt | 247 |
+| CR-040 | edge-case | Memory-differs handling — runtime competitors differ from cache; skill emits 3-option AskUserQuestion | 255–263 |
+| CR-041 | phase-a-inference | Phase A canonical memory reuse — memory has **Competitors:** line; Phase A infers Competitors; Phase B skipped | 69 |
+| CR-042 | phase-a-inference | Phase A trust-signal keywords — 'trust signals' / 'social proof' / 'reviews' → Focus = Core feature experience (trust surface) | 68 |
+| CR-043 | handoff | Screenshot path co-location — markdown saved at ~/Downloads/competitor-research/<slug>/<slug>-<date>.md | 226 |
+| CR-044 | handoff | Confluence-attachment offer — after Bet on it with N≥1 screenshots, skill presents 'Attach screenshots?' AskUserQuestion | 242–250 |
+| CR-045 | edge-case | HTTP 403/451/CAPTCHA detection — Playwright hit on a 451 page produces inline 'couldn't access <page> — 451' note | 141–143 |
+| CR-046 | phase-b-core-questions | Phase B fallback path — memory empty AND user didn't name competitors → Phase B asks; fallback options shown | 86–95 |
+| CR-047 | edge-case | Memory cached after Phase B — empty memory → Phase B asks Competitors → answer appended as **Competitors:** line | 211, 256 |
+| CR-048 | edge-case | Playwright unavailable degrades gracefully — mcp_state: none produces text-only report; §1 notes 'Playwright not available' | 127–134, 208 |

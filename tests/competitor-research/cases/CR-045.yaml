@@ -1,0 +1,39 @@
+id: CR-045
+category: edge-case
+title: "HTTP 403/451/CAPTCHA detection — Playwright hit on a 451 page produces inline 'couldn't access <page> — 451' note"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [141, 143]
+preconditions:
+  user_input: "detailed comparison of Stake and 1Xbet signup flows"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake (https://stake.com), 1Xbet (https://1xbet.com), Rollbit (https://rollbit.com), Bc.Game (https://bc.game)
+  mcp_state: playwright
+  prior_artifacts: |
+    Simulated Playwright runs:
+      - https://stake.com/             → 200 OK, snapshot captured
+      - https://stake.com/signup       → HTTP 451 (Unavailable For Legal Reasons — geoblocked)
+      - https://1xbet.com/             → 200 OK, snapshot captured
+      - https://1xbet.com/signup       → 200 OK, snapshot captured
+pass_criteria:
+  - id: cr-http-error-noted-inline
+    expected_line_pattern: "couldn't access /signup — 451"
+    expected_section: "5. UX Flow Notes"
+    competitor_subheading: "Stake"
+  - id: cr-research-scope-notes-playwright-status
+    expected_substring_any_of: ["Playwright connected", "screenshots captured"]
+notes: |
+  v1.2.0 wording (SKILL.md line 143): "If a page returns HTTP 403/451 or shows a CAPTCHA /
+  bot-detection wall, note `couldn't access <page> — <reason>` inline in §5 UX Flow Notes
+  and skip. This skill does NOT perform robots.txt pre-flight (Playwright does not enforce
+  robots.txt natively); rely on the page response."
+
+  Replaces v1.0.0's robots.txt-centric framing. The inline note format is:
+    "couldn't access /signup — 451 geoblocked"
+  inside §5 under the Stake subheading. The competitor's other accessible pages still
+  render normally — only the blocked page is skipped, not the whole competitor.
+
+  Split from old CR-040 sub-rule 4 (robots.txt) and reframed for HTTP-status detection.

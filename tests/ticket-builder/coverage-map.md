@@ -1,6 +1,6 @@
 # ticket-builder Test Catalog — Coverage Map
 
-Single-table view of all 40 cases, the rule each covers, and the SKILL.md lines that anchor that rule. The judge sub-agent uses `skill_md_lines` as ground-truth lookup; this table is the human-readable index of the same data.
+Single-table view of all 49 cases, the rule each covers, and the SKILL.md lines that anchor that rule. The judge sub-agent uses `skill_md_lines` as ground-truth lookup; this table is the human-readable index of the same data.
 
 | ID | Category | Title | SKILL.md lines |
 |---|---|---|---|
@@ -44,24 +44,42 @@ Single-table view of all 40 cases, the rule each covers, and the SKILL.md lines 
 | TB-038 | quality | Facts cite source inline; assumptions are marked inline (not in a separate section) | 165 |
 | TB-039 | edge-case | Vague input → sharper title applied directly, no separate 'suggested title' note | 166 |
 | TB-040 | edge-case | Too-large request → one-sentence split proposal ABOVE the artifact, not buried in notes | 167 |
+| TB-041 | phase-a-inference | Phase A infers 'Needs flow diagram = Yes' from 'new feature' signal | 61, 150 |
+| TB-042 | phase-a-inference | Phase A infers 'Needs flow diagram = No' from 'bug' + 'config'; §User Flow omitted entirely | 61, 150 |
+| TB-043 | phase-c-followups | Ambiguous input → Phase C 'Flow?' fallback fires with 3 spec'd options | 106–114 |
+| TB-044 | output-structure | DoD hard cap enforced — multi-component bug naïvely yielding 8 items trimmed to ≤5 | 155 |
+| TB-045 | output-structure | Inferred block 4-bullet cap + overflow marker when Phase A infers all 5 fields | 139 |
+| TB-046 | phase-c-followups | 'Assume + flag' inline syntax matches the spec'd '> **Assumption:** … **Flag:** …' format | 104 |
+| TB-047 | phase-a-inference | Conflict rule — 'fix the new feature on iOS' leaves Ticket type Not inferred | 53 |
+| TB-048 | handoff | PRD-driven mode — zero questions, all 5 inferences cite PRD section, auto Bet on it | 186–198 |
+| TB-049 | handoff | PRD-driven mode — thin §12 row 'Misc — TBD' defaults to type Task with inline Open flag | 194 |
 
 ## Category totals
 
 | Category | Count | ID range |
 |---|---|---|
 | frontmatter | 3 | TB-001 – TB-003 |
-| phase-a-inference | 8 | TB-004 – TB-011 |
+| phase-a-inference | 11 | TB-004 – TB-011, TB-041, TB-042, TB-047 |
 | phase-b-core-questions | 5 | TB-012 – TB-016 |
-| phase-c-followups | 8 | TB-017 – TB-024 |
-| output-structure | 7 | TB-025 – TB-031 |
-| handoff | 5 | TB-032 – TB-036 |
+| phase-c-followups | 10 | TB-017 – TB-024, TB-043, TB-046 |
+| output-structure | 9 | TB-025 – TB-031, TB-044, TB-045 |
+| handoff | 7 | TB-032 – TB-036, TB-048, TB-049 |
 | quality | 2 | TB-037 – TB-038 |
 | edge-case | 2 | TB-039 – TB-040 |
-| **Total** | **40** | |
+| **Total** | **49** | |
 
 ## Assertion ID usage
 
-All `pass_criteria` entries use IDs from [`../rubric/pass-criteria-vocabulary.md`](../rubric/pass-criteria-vocabulary.md). No new assertion IDs were added — the existing vocabulary covered every rule in scope for this skill.
+Cases TB-001 – TB-040 use only IDs from sections A–L of [`../rubric/pass-criteria-vocabulary.md`](../rubric/pass-criteria-vocabulary.md). Cases TB-041 – TB-049 additionally use the new section M ("ticket-builder v1.1.0 additions") which introduces:
+
+- `dod-item-count-within-cap` — used by TB-044
+- `inferred-block-cap-respected` — used by TB-045
+- `assume-flag-syntax-format` — used by TB-046
+- `prd-driven-mode-zero-questions` — used by TB-048, TB-049
+- `prd-driven-mode-auto-bet-on-it` — used by TB-048, TB-049
+- `prd-driven-mode-thin-row-default` — used by TB-049
+
+TB-042 also exercises the existing `output-omits-banned-sections` assertion with `User Flow` as the banned section (a new context for that existing ID — `User Flow` is conditionally banned IFF `Needs flow diagram = No`).
 
 ## Known coverage gaps
 

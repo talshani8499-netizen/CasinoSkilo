@@ -1,0 +1,66 @@
+id: PRD-046
+category: handoff
+title: "Double-down chain with 26+ §12 rows triggers chain-too-long AskUserQuestion BEFORE any Jira call"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [208, 214]
+preconditions:
+  user_input: "PRD for the full Sidekick engine rewrite — many child tickets. Double down at handoff."
+  jira_context: |
+    PR-900 / open / "Sidekick engine rewrite — umbrella" / epic / squad: platform
+    PR-901 / open / "Sidekick legacy decommission" / component: platform
+  confluence_context: |
+    page: "Sidekick Engine — Rewrite North Star" / spaceId=772571142
+    body: "Goal: replace the legacy Sidekick engine with a v2 runtime that supports VIP presence, chat overlays, and Pragmatic Solutions launcher hooks."
+  active_memory: null
+  mcp_state: atlassian
+  prior_artifacts: |
+    # Sidekick Engine v2 — Full Rewrite
+
+    > **Inferred (not asked):**
+    > - Maturity: **Existing feature** (cited: "rewrite")
+    > - Main user: **End user** (cited: "VIP presence")
+    > - Main problem: **Internal workflow** (cited: "legacy")
+    > - Success: **Engagement** (cited: "session length")
+
+    ## 1. Overview
+    Replace the legacy Sidekick engine with a v2 runtime.
+
+    ## 12. Suggested Jira Breakdown
+    **Sub-epic:** PR-900-child — "Sidekick Engine v2 — Full Rewrite"
+
+    | # | Title | Type | Component | Notes |
+    |---|---|---|---|---|
+    | 1  | Bootstrap Sidekick v2 runtime skeleton                  | New feature | platform     | foundation |
+    | 2  | Port lobby launcher hooks to v2                         | New feature | platform     | PS launcher |
+    | 3  | Port VIP presence module to v2                          | New feature | chat         | depends on #1 |
+    | 4  | Port chat overlay rendering to v2                       | New feature | chat         | depends on #1 |
+    | 5  | Port Smartico session token bridge to v2                | Improvement | integrations | reuse PR-301 |
+    | 6  | Port Sidekick room-state API to v2                      | New feature | platform     | last-seen |
+    | 7  | Migrate PS Admin Panel VIP tier toggle to v2            | Improvement | admin-panel  | tier ≥ 2 |
+    | 8  | Migrate Smartico `vip_chat_presence_shown` to v2 event  | Improvement | integrations | analytics parity |
+    | 9  | Add v2 feature-flag gate on lobby                       | New feature | platform     | rollout |
+    | 10 | Add v2 feature-flag gate on chat                        | New feature | platform     | rollout |
+    | 11 | Telemetry: v1-vs-v2 session length parity dashboard     | New feature | analytics    | regression guard |
+    | 12 | Telemetry: v1-vs-v2 GGR parity dashboard                | New feature | analytics    | regression guard |
+    | 13 | Telemetry: v1-vs-v2 crash-rate dashboard                | New feature | analytics    | regression guard |
+    | 14 | Telemetry: v1-vs-v2 latency p95 dashboard               | New feature | analytics    | regression guard |
+    | 15 | Backfill historical Sidekick events into v2 schema      | Improvement | analytics    | data migration |
+    | 16 | Update Pragmatic Solutions launcher contract for v2     | Improvement | integrations | external API |
+    | 17 | Update Smartico campaign console for v2 presence events | Improvement | admin-panel  | CRM impact |
+    | 18 | Migrate VIP block-list enforcement to v2 chat overlay   | Improvement | chat         | security |
+    | 19 | Migrate MGA chat content logging to v2                  | Improvement | compliance   | regulatory |
+    | 20 | Migrate Curacao chat content logging to v2              | Improvement | compliance   | regulatory |
+    | 21 | Localize v2 strings (en, sv, fi, no)                    | New feature | localization | i18n |
+    | 22 | Accessibility audit v2 (WCAG 2.1 AA)                    | Improvement | platform     | a11y |
+    | 23 | Performance: presence updates < 2s p95 in v2            | Improvement | platform     | NFR |
+    | 24 | Decommission legacy Sidekick v1 runtime                 | Improvement | platform     | cleanup |
+    | 25 | Decommission legacy v1 admin-panel screens              | Improvement | admin-panel  | cleanup |
+    | 26 | Post-launch v2 retro & doc update                       | Improvement | platform     | wrap-up |
+pass_criteria:
+  - id: double-down-chain-cap-question-fires
+    expected_question_substring: "exceeds the Double-down chain cap of 25"
+    expected_header: "Chain too long?"
+    expected_options: ["Split the PRD", "Bet on it instead", "Cancel"]
+  - id: gamble-handoff-presented-once
+notes: "Hard cap (L208–214): when §12 has 26+ rows, abort the chain BEFORE making any Jira call and present the spec'd AskUserQuestion with header `Chain too long?` and the 3 options (Split the PRD / Bet on it instead / Cancel). This fixture has exactly 26 rows so the cap (>25) fires. The trace MUST show the AskUserQuestion BEFORE any Confluence create or Jira create-issue MCP call — assert that no `mcp__*` create call appears in the trace prior to the question."

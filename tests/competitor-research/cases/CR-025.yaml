@@ -18,10 +18,14 @@ pass_criteria:
     skill: competitor-research
     required_sections:
       - "1. Research Scope"
-      - "2. Methodology"
-      - "3. Competitor Snapshots"
+      - "2. Competitors Reviewed"
+      - "3. Executive Summary"
       - "4. Comparison Table"
       - "5. UX Flow Notes"
       - "6. Key Patterns"
       - "7. Gaps & Opportunities"
-notes: "All 7 numbered sections must be present, in order, with the spec'd headings."
+notes: |
+  All 7 numbered sections must be present, in order, with the spec'd headings.
+
+  v1.2.0 fix: previously asserted "2. Methodology" and "3. Competitor Snapshots" — catalog drift
+  vs the canonical spec at skills/competitor-research/SKILL.md:L170-200. Updated to match.

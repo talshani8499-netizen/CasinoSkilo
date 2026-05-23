@@ -2,6 +2,30 @@
 
 All notable changes to the CasinoSkilo plugin follow the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format and adhere to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] — 2026-05-23 — catalog hygiene (test harness only; no skill changes)
+
+**Scope:** Test catalog and harness improvements only. **No SKILL.md changes.** Plugin distribution stays at v1.1.0 — `/plugin update CasinoSkilo` is a no-op for v1.2.0. The v1.2.0 tag is repo-scoped, marking the catalog version.
+
+**Result:** First-ever 100% PASS across the entire catalog (144/0/0). Up from v1.1.0's 119/1/0.
+
+### Added
+- 9 new ticket-builder test cases (TB-041…TB-049) covering v1.1.0 behaviors: `Needs flow diagram` Phase A field, conditional `## User Flow` section, DoD 3–5 hard cap, Inferred-block 4-bullet cap, "assume + flag" inline syntax, Phase A conflict-resolution rule, PRD-driven mode chain behavior (TB-048 marquee case), thin §12 row defaults.
+- 7 new prd-writer test cases (PRD-041…PRD-047) covering: Retention Main problem inference, VIP/CRM sub-segment tags, GGR `revenue` sub-tag, Phase A conflict-resolution rule, **25-child Double-down chain cap** (PRD-046 marquee — verifies the cap question fires BEFORE any Jira call), Confluence parentId 404 retry.
+- 6 new competitor-research test cases (CR-041…CR-046) covering: Phase A canonical memory reuse, trust-signal Focus keywords, **screenshot path co-location** (CR-043 directly exercises the v1.1.0 real-bug fix), Confluence-attachment offer, HTTP 403/451/CAPTCHA detection, Phase B fallback path.
+- 2 split-from-CR-040 cases (CR-047 memory-cached-after-Phase-B, CR-048 Playwright-unavailable-degrades-gracefully).
+- New rubric section L: **Static checks (pre-runner)** — 4 static-check assertion IDs (`static-frontmatter-parses-as-yaml`, `static-description-starts-with-use-when`, `static-description-includes-output-noun`, `static-required-h2-headings-present`) that catch issues the LLM-graded stage might miss (like v1.0.0's CR-002 judge misread).
+- Per-skill vocabulary sections M / N / O for v1.1.0 backfill assertion IDs (14 new IDs total).
+
+### Changed
+- **CR-040 rewritten** to test only the memory-differs sub-rule. Previously a 4-sub-rule bundle (DIFFERS / EMPTY / Playwright-off / robots.txt); the other 3 sub-rules now live in dedicated cases (CR-045, CR-047, CR-048).
+- **CR-025 fixed:** case YAML now asserts canonical §2/§3 section names (`Competitors Reviewed` / `Executive Summary`) — the v1.1.0 lone PARTIAL flips to PASS.
+
+### Catalog stats
+- v1.0.0 baseline: 120 cases, 105/13/2 (87.5%).
+- v1.1.0: 120 cases, 119/1/0 (99.2%).
+- v1.2.0: **144 cases, 144/0/0 (100%)**.
+- Zero regressions across the v1.1.0 → v1.2.0 transition (SKILL.md unchanged).
+
 ## [1.1.0] — 2026-05-23
 
 ### Added

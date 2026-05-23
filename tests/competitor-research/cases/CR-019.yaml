@@ -1,0 +1,20 @@
+id: CR-019
+category: phase-c-followups
+title: "Phase C skips region question when input already names a market"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [109, 110]
+preconditions:
+  user_input: "compare how Stake handles signup for German players specifically"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: playwright
+pass_criteria:
+  - id: phase-c-skips-when-context-answers
+    topic: "region/market scope"
+    inline_assumption_expected: true
+  - id: phase-c-max-3
+notes: "Rule 3 — input names 'German players', so Phase C must NOT ask the region question; instead convert to inline assumption (e.g. 'Assumed: DE market view')."

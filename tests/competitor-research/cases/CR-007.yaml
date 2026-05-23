@@ -1,0 +1,26 @@
+id: CR-007
+category: phase-a-inference
+title: "Depth inferred as 'Deep UX flow' from 'every screen, frame by frame'"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [67, 73]
+preconditions:
+  user_input: "I want a deep UX flow on Stake's onboarding — every screen, frame by frame"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake (https://stake.com), 1Xbet (https://1xbet.com), Rollbit (https://rollbit.com), Bc.Game (https://bc.game)
+  mcp_state: playwright
+pass_criteria:
+  - id: phase-a-infers-field
+    field: "Depth"
+    expected_value: "Deep UX flow"
+    must_cite_phrase: "every screen, frame by frame"
+  - id: phase-a-infers-field
+    field: "Focus"
+    expected_value: "Onboarding"
+    must_cite_phrase: "onboarding"
+  - id: phase-b-skips
+    questions: ["Depth", "Focus", "Competitors"]
+notes: "'every screen' / 'frame by frame' → Deep UX flow Depth. Multiple Phase A inferences cascade."

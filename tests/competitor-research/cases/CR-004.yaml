@@ -1,0 +1,28 @@
+id: CR-004
+category: phase-a-inference
+title: "Focus inferred as 'Onboarding' from 'compare our signup to competitors'"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [67, 73]
+preconditions:
+  user_input: "compare our signup to competitors — what are the leaders doing differently?"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake (https://stake.com), 1Xbet (https://1xbet.com), Rollbit (https://rollbit.com), Bc.Game (https://bc.game)
+  mcp_state: none
+pass_criteria:
+  - id: phase-a-infers-field
+    field: "Focus"
+    expected_value: "Onboarding"
+    must_cite_phrase: "signup"
+  - id: phase-a-infers-field
+    field: "Competitors"
+    expected_value: "Stake, 1Xbet, Rollbit, Bc.Game"
+    must_cite_phrase: "memory"
+  - id: phase-b-skips
+    questions: ["Focus", "Competitors"]
+  - id: inferred-block-present
+    must: true
+notes: "'signup' → Onboarding inference (line 68); memory provides competitors (line 69)."

@@ -1,0 +1,25 @@
+id: CR-030
+category: output-structure
+title: "Output ends at §7 — no Jira tickets generated, no meta-commentary"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [200, 244]
+preconditions:
+  user_input: "scan Stake's loyalty program and tell me what to ship"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: atlassian+playwright
+pass_criteria:
+  - id: cr-no-jira-tickets-generated
+    final_section_heading: "Gaps & Opportunities"
+  - id: no-meta-commentary-after-final-section
+    final_section_heading: "Gaps & Opportunities"
+  - id: output-omits-banned-sections
+    banned_sections:
+      - "Suggested Jira Breakdown"
+      - "Tickets"
+      - "Builder notes"
+notes: "Lines 200 + 244 — competitor-research is research-only. §7 Gaps & Opportunities is the final section. NO Jira tickets are created from this skill, even if user input asks 'what to ship'."

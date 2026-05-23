@@ -1,0 +1,31 @@
+id: CR-014
+category: phase-b-core-questions
+title: "Phase B headers match spec verbatim: Focus / Targets / Output / Depth"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [80, 98]
+preconditions:
+  user_input: "look at what other casinos are doing"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: phase-b-question-shape
+    question: "Focus"
+    expected_header: "Focus"
+    expected_options_count: 3
+  - id: phase-b-question-shape
+    question: "Targets"
+    expected_header: "Targets"
+    expected_options_count: 3
+  - id: phase-b-question-shape
+    question: "Output"
+    expected_header: "Output"
+    expected_options_count: 3
+  - id: phase-b-question-shape
+    question: "Depth"
+    expected_header: "Depth"
+    expected_options_count: 3
+  - id: phase-b-uses-ask-user-question
+notes: "AskUserQuestion headers must match the 4 spec'd labels exactly: Focus, Targets, Output, Depth."

@@ -1,0 +1,27 @@
+id: CR-025
+category: output-structure
+title: "Output contains all 7 numbered sections in order"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [155, 200]
+preconditions:
+  user_input: "scan how Stake handles onboarding — detailed comparison please"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: playwright
+pass_criteria:
+  - id: cr-has-7-sections
+  - id: output-has-required-sections
+    skill: competitor-research
+    required_sections:
+      - "1. Research Scope"
+      - "2. Methodology"
+      - "3. Competitor Snapshots"
+      - "4. Comparison Table"
+      - "5. UX Flow Notes"
+      - "6. Key Patterns"
+      - "7. Gaps & Opportunities"
+notes: "All 7 numbered sections must be present, in order, with the spec'd headings."

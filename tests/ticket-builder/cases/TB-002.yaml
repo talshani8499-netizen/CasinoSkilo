@@ -1,0 +1,15 @@
+id: TB-002
+category: frontmatter
+title: "Frontmatter description begins with the literal trigger 'Use when'"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [1, 5]
+preconditions:
+  user_input: "the withdrawal page throws a 500 on iOS Safari"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: frontmatter-description-trigger
+notes: "Verifies the description starts with 'Use when' so Claude's invocation router matches PM-style intents."

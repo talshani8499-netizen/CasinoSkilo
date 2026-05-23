@@ -1,0 +1,24 @@
+id: CR-018
+category: phase-c-followups
+title: "Phase C rejects banned placeholder options"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [106, 108]
+preconditions:
+  user_input: "look at how Stake handles loyalty"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: playwright
+pass_criteria:
+  - id: phase-c-no-banned-placeholders
+    banned_phrases:
+      - "Use the existing source"
+      - "Option A"
+      - "TBD"
+      - "I'll specify later"
+  - id: phase-c-options-are-concrete
+    must_reference_any_of: ["region", "market", "source", "time horizon", "auth", "page", "competitor"]
+notes: "Rule 2 — Phase C option labels must be concrete, never a placeholder like 'Use the existing source' or 'Option A'."

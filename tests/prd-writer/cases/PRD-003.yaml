@@ -1,0 +1,16 @@
+id: PRD-003
+category: frontmatter
+title: "Description mentions the 'Double down' chain behavior"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [3, 5]
+preconditions:
+  user_input: "We need a PRD for a new free-spin abuse detection feature on the Sidekick engine"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: frontmatter-description-names-chain-behavior
+    expected_phrase: "Double down"
+notes: "Description should advertise the Double down chain so PMs know the PRD can fan out to tickets."

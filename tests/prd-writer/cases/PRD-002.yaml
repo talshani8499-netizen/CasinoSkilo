@@ -1,0 +1,17 @@
+id: PRD-002
+category: frontmatter
+title: "Description starts with 'Use when' and names 'maturity-adapted PRD' output"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [3, 5]
+preconditions:
+  user_input: "Need a PRD for a new deposit limits screen targeted at MGA market"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: frontmatter-description-trigger
+  - id: frontmatter-description-names-output
+    expected_output_type: "maturity-adapted PRD"
+notes: "Description must declare the maturity-adapted PRD output so Claude can match user intent."

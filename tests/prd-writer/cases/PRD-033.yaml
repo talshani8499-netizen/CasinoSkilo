@@ -1,0 +1,24 @@
+id: PRD-033
+category: maturity-adaptation
+title: "Clear direction — emphasizes Requirements/Flows/Breakdown, no Dependencies section"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [116, 122]
+preconditions:
+  user_input: "We've validated the cashback concept with VIPs — now write the PRD for build: scope, flows, requirements"
+  jira_context: |
+    PR-820 / open / "Smartico cashback engine" / component: crm / squad: crm
+  confluence_context: |
+    page: "Cashback validation memo" / spaceId=772571142
+    body: "Tested with 12 tier-3 VIPs. NPS +28. Greenlit by VP product."
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: prd-emphasis-matches-maturity
+    maturity: "Clear direction"
+    expected_emphasis:
+      - "Requirements"
+      - "User Flow"
+      - "Suggested Jira Breakdown"
+    forbidden_sections: ["Dependencies"]
+notes: "Clear-direction PRDs lean hard on Requirements/Flows/Breakdown and skip a Dependencies section."

@@ -1,0 +1,24 @@
+id: CR-038
+category: handoff
+title: "Markdown saved to ~/Downloads/competitor-research/<focus-slug>-<YYYY-MM-DD>.md with co-located screenshots subdir"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [224, 224]
+preconditions:
+  user_input: "deep UX flow on Stake's signup with screenshots"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: playwright
+pass_criteria:
+  - id: cr-markdown-save-path-pattern
+    expected_pattern: "~/Downloads/competitor-research/<focus-slug>-<YYYY-MM-DD>.md"
+  - id: cr-screenshots-subdir-co-located
+  - id: markdown-saved-with-absolute-path
+    folder: "competitor-research"
+  - id: slug-is-kebab-case
+    title: "Stake Signup Deep UX Flow"
+    expected_slug: "stake-signup-deep-ux-flow"
+notes: "Line 224 — markdown saved at ~/Downloads/competitor-research/<focus-slug>-<YYYY-MM-DD>.md; screenshots/ subdir co-located with the markdown (e.g. ~/Downloads/competitor-research/stake-signup-deep-ux-flow/screenshots/stake-signup-1.png)."

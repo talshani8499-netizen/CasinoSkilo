@@ -1,0 +1,18 @@
+id: PRD-011
+category: phase-a-inference
+title: "Conflicting signals (Maturity 'new' vs 'v2 of') — Phase A resolves or defers"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [53, 64]
+preconditions:
+  user_input: "A brand-new flow that's actually v2 of the existing raffles entry point"
+  jira_context: |
+    PR-310 / closed / "Raffles v1" / epic
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: phase-a-resolves-conflict
+    field: "Maturity"
+    acceptable_outcomes: ["Existing feature", "<not inferred>"]
+notes: "When 'brand-new' and 'v2 of' both appear, the skill should either resolve to Existing feature (the more specific signal) or leave Maturity for Phase B."

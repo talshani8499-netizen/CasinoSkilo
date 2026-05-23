@@ -1,0 +1,15 @@
+id: PRD-015
+category: phase-b-core-questions
+title: "Phase B uses AskUserQuestion only — no free-form prompts"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [62, 85]
+preconditions:
+  user_input: "Need a PRD for the new responsible-gambling reminder modal"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: phase-b-uses-ask-user-question
+notes: "All Phase B questions must be emitted via the AskUserQuestion tool, never as free-form text."

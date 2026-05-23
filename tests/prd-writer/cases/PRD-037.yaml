@@ -1,0 +1,70 @@
+id: PRD-037
+category: handoff
+title: "Double down chain — creates Confluence page + Jira sub-epic + N child tickets, no questions, every child cites PRD"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [191, 204]
+preconditions:
+  user_input: "PRD for the Community Chat v2 — VIP-only, Smartico-presence aware. Double down at handoff."
+  jira_context: |
+    PR-266 / closed / "Community chat MVP — phase 1" / component: chat / squad: social
+    PR-280 / open / "Community chat — epic" / epic / squad: social
+    PR-301 / open / "Smartico session integration" / component: integrations
+  confluence_context: |
+    page: "Community Chat — North Star" / spaceId=772571142
+    body: "Goal: in-app social presence for VIP retention. Pragmatic Solutions hosts game launchers; chat overlays via Sidekick engine."
+  active_memory: null
+  mcp_state: atlassian
+  prior_artifacts: |
+    # Community Chat v2 — VIP Presence
+
+    > **Inferred (not asked):**
+    > - Maturity: **Existing feature** (cited: "v2")
+    > - Main user: **VIP player** (cited: "VIP-only")
+    > - Main problem: **Retention / re-engagement**
+    > - Success: **GGR lift via VIP session length**
+
+    ## 1. Overview
+    ...
+    ## 8. Requirements
+    ### Functional
+    - FR-1: Render presence dot on lobby avatar for online VIPs.
+    - FR-2: Reuse PR-301 Smartico session token; no new auth.
+    - FR-3: Persist last-seen via Sidekick room state API.
+    ### Non-Functional
+    - Performance: presence updates < 2s p95.
+    - Security: respect VIP block-list.
+    - Permissions: VIP tier ≥ 2 only.
+    - Accessibility: WCAG 2.1 AA.
+    - Localization: en, sv, fi, no.
+    - Compliance: MGA + Curacao chat content logging.
+
+    ## 10. Analytics
+    ### Primary
+    - VIP session length lift (target +8%).
+    ### Secondary
+    - Chat msg/VIP/day, presence dot CTR.
+    ### Tracking
+    - Smartico event `vip_chat_presence_shown`.
+
+    ## 12. Suggested Jira Breakdown
+    **Sub-epic:** PR-280-child — "Community Chat v2 — VIP Presence"
+
+    | # | Title | Type | Component | Notes |
+    |---|---|---|---|---|
+    | 1 | Render VIP presence dot on lobby avatar | New feature | chat | FR-1, depends on PR-301 |
+    | 2 | Reuse Smartico session token for chat auth | Improvement | integrations | FR-2, no new auth IDP |
+    | 3 | Persist last-seen via Sidekick room-state API | New feature | chat | FR-3 |
+    | 4 | Add VIP block-list enforcement to chat overlay | Improvement | chat | Non-Functional Security |
+    | 5 | Wire Smartico `vip_chat_presence_shown` event | New feature | integrations | Analytics §10 Tracking |
+    | 6 | PS Admin Panel — VIP chat tier toggle | New feature | admin-panel | Permissions FR / tier ≥ 2 |
+pass_criteria:
+  - id: gamble-options-match-spec
+    skill: prd-writer
+    expected_options: ["Bet on it", "Hold the chip", "Double down"]
+  - id: double-down-creates-confluence-epic-and-children
+    expected_child_count: 6
+  - id: double-down-child-tickets-no-questions
+  - id: double-down-child-tickets-cite-prd
+  - id: confluence-call-uses-pkb-params
+notes: "Highest-value test. Double down must produce 1 Confluence page + 1 Jira sub-epic + 6 child tickets (matching the 6 §12 rows). Each child invokes ticket-builder in PRD-driven mode with Phase B+C skipped, auto-Bet on it, NO user questions; every Phase A inference in each child cites the originating PRD section (e.g. 'from PRD §8 FR-1', 'from PRD §10 Tracking')."

@@ -1,0 +1,21 @@
+id: CR-039
+category: quality
+title: "Findings are specific, cite source, and call out missing/inaccessible pages"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [205, 220]
+preconditions:
+  user_input: "detailed comparison of Stake and Rollbit pricing and bonus terms"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: playwright
+pass_criteria:
+  - id: facts-cite-source
+  - id: uses-company-terminology
+    expected_terms: ["Stake", "Rollbit", "21.com"]
+  - id: cr-robots-txt-blocked-inline-note
+  - id: output-copy-pasteable
+notes: "Quality bar — every observation ties to a competitor + page/screenshot reference (URL or screenshots/<file>.png); facts cite source; assumptions are flagged; missing info is called out inline (e.g. 'couldn't access Rollbit pricing — geo-blocked from current region')."

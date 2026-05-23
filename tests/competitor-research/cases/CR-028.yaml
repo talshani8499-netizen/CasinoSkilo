@@ -1,0 +1,24 @@
+id: CR-028
+category: output-structure
+title: "§5 UX Flow Notes references screenshots inline — no separate Screenshots section"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [185, 195]
+preconditions:
+  user_input: "deep UX flow on Stake's signup with every screenshot"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: playwright
+pass_criteria:
+  - id: cr-screenshots-inline-not-separate-section
+    inline_pattern: "![*](screenshots/*.png)"
+    banned_section: "Screenshots"
+  - id: output-omits-banned-sections
+    banned_sections:
+      - "Screenshots"
+      - "Appendix"
+      - "References"
+notes: "Line 187 — screenshots are referenced inline via ![desc](screenshots/<file>.png). No standalone Screenshots section. Expected files: screenshots/stake-signup-1.png, screenshots/stake-signup-2.png, screenshots/stake-signup-3.png."

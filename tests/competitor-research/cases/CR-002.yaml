@@ -1,0 +1,15 @@
+id: CR-002
+category: frontmatter
+title: "Description begins with 'Use when' trigger phrase"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [3, 5]
+preconditions:
+  user_input: "what are other crypto casinos doing on the homepage that we aren't?"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: frontmatter-description-trigger
+notes: "Description must start with the literal 'Use when' so the harness can match PM intent."

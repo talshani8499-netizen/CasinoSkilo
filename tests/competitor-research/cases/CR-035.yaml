@@ -1,0 +1,20 @@
+id: CR-035
+category: handoff
+title: "Ready To Gamble On It? presented with exactly 2 options: Bet on it + Hold the chip"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [226, 230]
+preconditions:
+  user_input: "scan how Stake handles VIP onboarding"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: atlassian+playwright
+pass_criteria:
+  - id: gamble-handoff-presented-once
+  - id: gamble-options-match-spec
+    skill: competitor-research
+    expected_options: ["Bet on it", "Hold the chip"]
+notes: "Lines 226–230 — CR handoff has the header `Gamble?` and exactly 2 options: 'Bet on it' (publish to Confluence) and 'Hold the chip' (markdown only). 'Double down' is PRD-writer only, NOT here."

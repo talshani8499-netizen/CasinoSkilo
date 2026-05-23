@@ -1,0 +1,17 @@
+id: TB-030
+category: output-structure
+title: "Inferred block is OMITTED when Phase A inferred zero fields"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [129, 134]
+preconditions:
+  user_input: "we should do something about the lobby"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: inferred-block-omitted-when-empty
+  - id: inferred-block-present
+    must: false
+notes: "When Phase A infers nothing, the Inferred block must be absent entirely — not rendered as an empty header or blockquote."

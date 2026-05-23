@@ -1,0 +1,18 @@
+id: CR-020
+category: phase-c-followups
+title: "Phase C does NOT ask about screenshot filenames"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [111, 120]
+preconditions:
+  user_input: "do a deep UX flow on Stake's signup with screenshots"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: playwright
+pass_criteria:
+  - id: cr-phase-c-skip-screenshot-filenames
+  - id: phase-c-skips-styling-copy-questions
+notes: "Rule 4 — Phase C never asks the user to name screenshot files. The skill auto-names them (e.g. screenshots/stake-signup-1.png)."

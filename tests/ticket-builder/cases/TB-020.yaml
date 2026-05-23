@@ -1,0 +1,16 @@
+id: TB-020
+category: phase-c-followups
+title: "Phase C does not ask about styling, color, copy, or exact event names (rule 4)"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [96, 96]
+preconditions:
+  user_input: "add a VIP progress bar to the casino home"
+  jira_context: |
+    PR-470 / closed / "Casino home redesign" / component: home / file: components/home/banner.tsx
+  confluence_context: null
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: phase-c-skips-styling-copy-questions
+notes: "Rule 4: Phase C must not generate questions about bar color, microcopy, or exact analytics property names. Those default + flag in the artifact, never become questions."

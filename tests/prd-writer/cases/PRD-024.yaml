@@ -1,0 +1,28 @@
+id: PRD-024
+category: phase-c-followups
+title: "Good Phase C follow-ups for Community Chat MVP cut (worked example)"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [103, 111]
+preconditions:
+  user_input: "PRD for the community chat MVP cut — what to ship in phase 1"
+  jira_context: |
+    PR-280 / open / "Community chat — epic" / epic
+    PR-266 / closed / "Community chat MVP — phase 1" / component: chat / squad: social
+    PR-301 / open / "Smartico session integration" / component: integrations
+  confluence_context: |
+    page: "Community Chat — North Star" / spaceId=772571142
+    body: "Goal: in-app social presence for VIP retention. Pragmatic Solutions hosts game launchers."
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: phase-c-max-3
+  - id: phase-c-options-are-concrete
+    must_reference_any_of: ["component", "project key", "system", "file path", "event name"]
+  - id: phase-c-no-banned-placeholders
+    banned_phrases:
+      - "Use the existing system"
+      - "Option A"
+      - "TBD"
+  - id: phase-c-skips-styling-copy-questions
+notes: "Worked example from lines 103–106: chat MVP cut. Follow-ups should be concrete (cite PR-266, PR-280, PR-301), under 3, no styling/copy questions, no placeholders."

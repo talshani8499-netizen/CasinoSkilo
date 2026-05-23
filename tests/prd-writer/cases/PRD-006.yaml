@@ -1,0 +1,26 @@
+id: PRD-006
+category: phase-a-inference
+title: "Main user inferred as 'VIP player' from 'high rollers'"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [53, 58]
+preconditions:
+  user_input: "We want a dedicated weekly tournament for high rollers in the Curacao market"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: phase-a-infers-field
+    field: "Main user"
+    expected_value: "VIP player"
+    must_cite_phrase: "high rollers"
+  - id: inferred-block-present
+    must: true
+  - id: inferred-includes-field
+    field: "Main user"
+    expected_value: "VIP player"
+    must_cite_phrase: "high rollers"
+  - id: phase-b-skips
+    questions: ["Main user"]
+notes: "Phase A 'high rollers'/'VIP' → VIP player main-user signal."

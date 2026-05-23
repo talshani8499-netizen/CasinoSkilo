@@ -1,0 +1,20 @@
+id: CR-021
+category: phase-c-followups
+title: "Phase C does NOT re-ask 'use existing competitors or different ones?'"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [111, 122]
+preconditions:
+  user_input: "scan our competitors on KYC flows"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: playwright
+pass_criteria:
+  - id: cr-phase-c-skip-redundant-competitor-question
+  - id: phase-c-skips-when-context-answers
+    topic: "competitor selection"
+    inline_assumption_expected: false
+notes: "Phase B already resolves the competitor list (via memory or its own question). Phase C must NOT re-ask it."

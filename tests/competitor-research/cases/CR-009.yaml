@@ -1,0 +1,24 @@
+id: CR-009
+category: phase-a-inference
+title: "Competitors NOT inferred when memory has no list and input is generic"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [67, 73]
+preconditions:
+  user_input: "I want to understand how competitors handle KYC"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    Notes from last sprint planning — nothing about competitors.
+  mcp_state: none
+pass_criteria:
+  - id: phase-a-does-not-infer-field
+    field: "Competitors"
+  - id: phase-a-infers-field
+    field: "Focus"
+    expected_value: "Compliance/KYC"
+    must_cite_phrase: "KYC"
+  - id: phase-b-asks
+    questions: ["Competitors"]
+notes: "Memory has no **Competitors:** line — Phase A cannot infer; Phase B must ask."

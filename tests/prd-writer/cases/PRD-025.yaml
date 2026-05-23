@@ -1,0 +1,16 @@
+id: PRD-025
+category: output-structure
+title: "PRD contains all 12 numbered sections in order"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [125, 175]
+preconditions:
+  user_input: "PRD for a new Sidekick-driven welcome-bonus flow targeted at Curacao FTD players"
+  jira_context: |
+    PR-712 / open / "FTD retention experiments" / squad: crm
+  confluence_context: null
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: prd-has-12-sections
+notes: "Sections 1 (Overview) through 12 (Suggested Jira Breakdown) must all be present in order."

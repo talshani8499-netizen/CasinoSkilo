@@ -1,0 +1,21 @@
+id: CR-016
+category: phase-b-core-questions
+title: "Competitors question label substitutes real names from memory at runtime"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [85, 88]
+preconditions:
+  user_input: "scan how competitors handle wagering requirements"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake (https://stake.com), 1Xbet (https://1xbet.com), Rollbit (https://rollbit.com), Bc.Game (https://bc.game)
+  mcp_state: none
+pass_criteria:
+  - id: cr-phase-b-competitor-question-uses-memory-names
+    expected_names: ["Stake", "1Xbet", "Rollbit", "Bc.Game"]
+  - id: phase-b-asks
+    questions: ["Targets"]
+  - id: phase-b-uses-ask-user-question
+notes: "Line 86 — when memory has competitors, Phase B Targets question label substitutes the actual names (e.g. 'Same as cached (Stake, 1Xbet, Rollbit, Bc.Game)') rather than a generic placeholder."

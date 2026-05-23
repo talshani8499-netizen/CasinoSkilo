@@ -1,0 +1,15 @@
+id: TB-032
+category: handoff
+title: "'Ready To Gamble On It?' is presented exactly once with header 'Gamble?'"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [149, 156]
+preconditions:
+  user_input: "add a VIP progress bar to the casino home"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: gamble-handoff-presented-once
+notes: "Handoff must be presented one time via AskUserQuestion with header 'Gamble?' and the question text 'Ready To Gamble On It?'."

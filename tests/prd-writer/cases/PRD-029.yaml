@@ -1,0 +1,21 @@
+id: PRD-029
+category: output-structure
+title: "§10 Analytics has Primary, Secondary, and Tracking subsections"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [165, 175]
+preconditions:
+  user_input: "PRD for a Smartico-driven free-spin abuse detector — needs success metrics defined"
+  jira_context: |
+    PR-820 / open / "Smartico cashback engine" / component: crm
+  confluence_context: null
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: prd-section-has-subsections
+    section: "10. Analytics"
+    required_subsections:
+      - "Primary"
+      - "Secondary"
+      - "Tracking"
+notes: "§10 Analytics must split into Primary KPI(s), Secondary KPI(s), and Tracking plan."

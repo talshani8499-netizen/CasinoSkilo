@@ -1,0 +1,27 @@
+id: TB-009
+category: phase-a-inference
+title: "Connection 'Extends' inferred from explicit file/component reference"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [56, 60]
+preconditions:
+  user_input: "extend components/home/banner.tsx to show a VIP tier progress strip for logged-in users"
+  jira_context: |
+    PR-470 / closed / "Casino home redesign" / component: home / file: components/home/banner.tsx
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: phase-a-infers-field
+    field: "Connection"
+    expected_value: "Extends"
+    must_cite_phrase: "components/home/banner.tsx"
+  - id: inferred-block-present
+    must: true
+  - id: inferred-includes-field
+    field: "Connection"
+    expected_value: "Extends"
+    must_cite_phrase: "components/home/banner.tsx"
+  - id: phase-b-skips
+    questions: ["Connection"]
+notes: "Phase A signal: reference to existing component/file/flow → Changes or Extends. File path in input + matching Jira hit triggers Extends."

@@ -1,0 +1,25 @@
+id: CR-032
+category: depth-adaptation
+title: "Quick scan depth → 3–5 opportunities, screenshots optional"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [143, 145]
+preconditions:
+  user_input: "quick 30-minute scan of Stake's homepage messaging"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: none
+pass_criteria:
+  - id: cr-depth-matches-answer
+    depth: "Quick scan"
+    expected_findings_min: 3
+    expected_findings_max: 5
+    screenshots_required: false
+  - id: cr-depth-quick-scan-shape
+    expected_findings_min: 3
+    expected_findings_max: 5
+    screenshots_required: false
+notes: "Line 144 — Quick scan stays light: 3–5 opportunities, screenshots optional, ~30-min equivalent."

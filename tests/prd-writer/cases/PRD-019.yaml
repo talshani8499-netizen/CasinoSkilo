@@ -1,0 +1,21 @@
+id: PRD-019
+category: phase-c-followups
+title: "Phase C skips a topic already answered by Jira/Confluence context"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [90, 101]
+preconditions:
+  user_input: "PRD for v2 of the community chat MVP — same auth model as before"
+  jira_context: |
+    PR-280 / open / "Community chat — epic" / epic
+    PR-266 / closed / "Community chat MVP — phase 1" / component: chat
+  confluence_context: |
+    page: "Community Chat Auth Model" / spaceId=772571142
+    body: "Community chat reuses Smartico session token. No new identity provider."
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: phase-c-skips-when-context-answers
+    topic: "auth model for community chat"
+    inline_assumption_expected: true
+notes: "Hard rule #3 — if Confluence already answers a topic, Phase C must NOT ask; convert to inline assumption instead."

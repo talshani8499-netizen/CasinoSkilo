@@ -1,0 +1,20 @@
+id: PRD-038
+category: handoff
+title: "Double down + no MCP → same fallback message as Bet on it"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [200, 200]
+preconditions:
+  user_input: "PRD for a new bonus exclusions UI in the PS Admin Panel. Double down at handoff."
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: double-down-falls-back-when-no-mcp
+    expected_message_substring: "Atlassian MCP not connected"
+  - id: mcp-fallback-when-disconnected
+    expected_message_substring: "Atlassian MCP not connected"
+  - id: markdown-saved-with-absolute-path
+    folder: "prds"
+notes: "When Double down is chosen but no Atlassian MCP is connected, the skill must emit the same fallback as Bet on it and stop (no chain executed)."

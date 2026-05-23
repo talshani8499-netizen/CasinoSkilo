@@ -1,0 +1,19 @@
+id: CR-027
+category: output-structure
+title: "§4 Comparison Table has at least 4 rows from canonical labels"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [175, 185]
+preconditions:
+  user_input: "detailed comparison: Stake vs 1Xbet vs Rollbit vs Bc.Game on homepage and pricing"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: playwright
+pass_criteria:
+  - id: cr-comparison-table-min-rows
+    min_rows: 4
+    required_row_labels_any_of: ["Homepage messaging", "Signup flow", "Pricing", "Trust signals", "Core feature"]
+notes: "§4 must have ≥4 rows drawn from: Homepage messaging / Signup flow / Pricing / Trust signals / Core feature."

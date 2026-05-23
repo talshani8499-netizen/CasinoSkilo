@@ -1,0 +1,26 @@
+id: PRD-004
+category: phase-a-inference
+title: "Maturity inferred as 'Initial idea' from 'we're thinking about'"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [53, 58]
+preconditions:
+  user_input: "We're thinking about a cashback-on-loss feature for VIP tier 3+ — early days, not sure yet"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: phase-a-infers-field
+    field: "Maturity"
+    expected_value: "Initial idea"
+    must_cite_phrase: "thinking about"
+  - id: inferred-block-present
+    must: true
+  - id: inferred-includes-field
+    field: "Maturity"
+    expected_value: "Initial idea"
+    must_cite_phrase: "thinking about"
+  - id: phase-b-skips
+    questions: ["Maturity"]
+notes: "Phase A signal 'thinking about'/'early days' → Initial idea (line 54)."

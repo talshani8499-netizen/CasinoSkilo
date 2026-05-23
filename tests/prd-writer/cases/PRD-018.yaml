@@ -1,0 +1,22 @@
+id: PRD-018
+category: phase-c-followups
+title: "Phase C rejects banned generic placeholders"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [90, 101]
+preconditions:
+  user_input: "PRD for a new Smartico-driven welcome-bonus flow"
+  jira_context: |
+    PR-712 / open / "FTD retention experiments" / squad: crm
+  confluence_context: null
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: phase-c-no-banned-placeholders
+    banned_phrases:
+      - "Use the existing system"
+      - "Use the existing source"
+      - "Option A"
+      - "TBD"
+      - "I'll specify later"
+notes: "Hard rule #2 — every Phase C option label must be concrete, never a placeholder."

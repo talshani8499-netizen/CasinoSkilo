@@ -1,0 +1,21 @@
+id: CR-012
+category: phase-b-core-questions
+title: "Phase B asks only the questions Phase A didn't infer"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [78, 98]
+preconditions:
+  user_input: "compare Stake's signup to ours — quick scan is fine"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake (https://stake.com), 1Xbet (https://1xbet.com), Rollbit (https://rollbit.com), Bc.Game (https://bc.game)
+  mcp_state: none
+pass_criteria:
+  - id: phase-b-skips
+    questions: ["Focus", "Competitors", "Depth"]
+  - id: phase-b-asks
+    questions: ["Output"]
+  - id: phase-b-uses-ask-user-question
+notes: "Phase A infers Focus (signup→Onboarding), Competitors (Stake), Depth (quick scan). Phase B asks only the remaining one: Output emphasis."

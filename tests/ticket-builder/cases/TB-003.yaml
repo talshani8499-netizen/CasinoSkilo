@@ -1,0 +1,16 @@
+id: TB-003
+category: frontmatter
+title: "Frontmatter description names the output type as a Jira-ready ticket"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [1, 5]
+preconditions:
+  user_input: "spec out the new VIP cashback flow for tier 3+ players"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: frontmatter-description-names-output
+    expected_output_type: "Jira-ready ticket"
+notes: "The description must name the output (Jira-ready ticket) so users and the harness can match intent before invocation."

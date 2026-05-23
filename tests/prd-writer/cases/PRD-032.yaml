@@ -1,0 +1,23 @@
+id: PRD-032
+category: maturity-adaptation
+title: "Initial idea — emphasizes Problem/Assumptions/Validation/MVP, no Open Questions section"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [116, 122]
+preconditions:
+  user_input: "We're thinking about a cashback-on-loss feature for VIP tier 3+ — very early days, just exploring"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: prd-emphasis-matches-maturity
+    maturity: "Initial idea"
+    expected_emphasis:
+      - "Problem Statement"
+      - "User Pain"
+      - "Assumptions"
+      - "Validation Plan"
+      - "MVP Suggestion"
+    forbidden_sections: ["Open Questions"]
+notes: "Initial idea PRDs surface Problem/Assumptions/Validation/MVP heavily and never render an 'Open Questions' section — unresolved decisions stay inline."

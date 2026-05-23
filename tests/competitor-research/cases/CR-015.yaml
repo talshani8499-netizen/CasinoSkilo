@@ -1,0 +1,20 @@
+id: CR-015
+category: phase-b-core-questions
+title: "When Phase A infers zero fields, Phase B asks all 4 core questions"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [78, 98]
+preconditions:
+  user_input: "research time"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: phase-b-asks
+    questions: ["Focus", "Targets", "Output", "Depth"]
+  - id: phase-b-uses-ask-user-question
+  - id: inferred-block-omitted-when-empty
+  - id: total-questions-asked-max
+    max: 7
+notes: "Fully vague input + no memory + no MCP context — Phase A infers nothing, so Phase B asks all 4."

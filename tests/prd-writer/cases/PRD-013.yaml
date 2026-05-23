@@ -1,0 +1,21 @@
+id: PRD-013
+category: phase-b-core-questions
+title: "Each Phase B question emits exactly 3 spec'd options (Maturity bank)"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [65, 75]
+preconditions:
+  user_input: "Need a PRD for a deposit-limits screen"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: phase-b-question-shape
+    question: "Maturity"
+    expected_header: "Maturity"
+    expected_options_count: 3
+  - id: phase-b-options-match-spec
+    question: "Maturity"
+    expected_options: ["Initial idea", "Clear direction", "Existing feature"]
+notes: "Phase B Maturity question has exactly 3 concrete options matching the spec bank verbatim (lines 65–75)."

@@ -1,0 +1,26 @@
+id: PRD-009
+category: phase-a-inference
+title: "Success signal inferred as GGR-lift from 'increase GGR by 5%'"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [53, 58]
+preconditions:
+  user_input: "Goal: increase GGR by 5% in the live casino vertical via a new lobby ranking algorithm"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: phase-a-infers-field
+    field: "Success"
+    expected_value: "GGR lift"
+    must_cite_phrase: "increase GGR"
+  - id: inferred-block-present
+    must: true
+  - id: inferred-includes-field
+    field: "Success"
+    expected_value: "GGR lift"
+    must_cite_phrase: "5%"
+  - id: phase-b-skips
+    questions: ["Success"]
+notes: "Phase A 'GGR'/'+X%' phrase → Success-signal GGR lift inference."

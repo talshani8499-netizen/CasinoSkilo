@@ -1,0 +1,22 @@
+id: TB-025
+category: output-structure
+title: "Artifact contains all 4 required sections in order"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [119, 161]
+preconditions:
+  user_input: "add a VIP progress bar to the casino home"
+  jira_context: |
+    PR-470 / closed / "Casino home redesign" / component: home / file: components/home/banner.tsx
+  confluence_context: null
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: output-has-required-sections
+    skill: ticket-builder
+    required_sections:
+      - "User Story"
+      - "Description"
+      - "User Flow"
+      - "Definition of Done"
+notes: "The 4 required sections from the Output template must all be present, in spec order."

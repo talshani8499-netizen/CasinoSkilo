@@ -1,0 +1,26 @@
+id: TB-005
+category: phase-a-inference
+title: "Feature ticket-type inferred from 'add' in input"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [56, 60]
+preconditions:
+  user_input: "add a Pay N Play onboarding flow for Finnish players"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: phase-a-infers-field
+    field: "Ticket type"
+    expected_value: "Feature"
+    must_cite_phrase: "add"
+  - id: inferred-block-present
+    must: true
+  - id: inferred-includes-field
+    field: "Ticket type"
+    expected_value: "Feature"
+    must_cite_phrase: "add"
+  - id: phase-b-skips
+    questions: ["Ticket type"]
+notes: "Phase A signal: 'add' / 'new' / 'build' → Feature."

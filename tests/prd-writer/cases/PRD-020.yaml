@@ -1,0 +1,16 @@
+id: PRD-020
+category: phase-c-followups
+title: "Phase C skips styling/copy/event-name questions (worked example: chat header color, analytics event name)"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [90, 111]
+preconditions:
+  user_input: "PRD for the community chat header redesign — needs a new look and analytics tracking"
+  jira_context: |
+    PR-280 / open / "Community chat — epic" / epic
+  confluence_context: null
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: phase-c-skips-styling-copy-questions
+notes: "Hard rule #4 — Phase C never asks about chat header color, exact copy, or precise analytics event names (worked example, lines 108–111)."

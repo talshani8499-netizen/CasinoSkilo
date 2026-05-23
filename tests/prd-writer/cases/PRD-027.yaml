@@ -1,0 +1,15 @@
+id: PRD-027
+category: output-structure
+title: "§7 User Flow uses box-drawing characters and arrows in a fenced code block"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [150, 160]
+preconditions:
+  user_input: "PRD for a new daily-mission progress popup in the live casino lobby"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: ascii-flow-uses-box-drawing
+notes: "§7 User Flow must render with ┌─┐│└┘├┤┬┴ and ▼ → ─▶ inside a fenced code block."

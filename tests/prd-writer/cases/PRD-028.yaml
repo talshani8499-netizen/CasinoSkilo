@@ -1,0 +1,26 @@
+id: PRD-028
+category: output-structure
+title: "§8 Requirements has Functional and Non-Functional subsections"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [155, 167]
+preconditions:
+  user_input: "PRD for an MGA-compliant self-exclusion screen — strict accessibility requirements"
+  jira_context: |
+    PR-905 / open / "Self-exclusion v3 — MGA audit" / component: rg
+  confluence_context: null
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: prd-section-has-subsections
+    section: "8. Requirements"
+    required_subsections:
+      - "Functional"
+      - "Non-Functional"
+      - "Performance"
+      - "Security"
+      - "Permissions"
+      - "Accessibility"
+      - "Localization"
+      - "Compliance"
+notes: "§8 Requirements must include Functional + Non-Functional with Performance/Security/Permissions/Accessibility/Localization/Compliance under Non-Functional."

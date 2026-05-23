@@ -1,0 +1,19 @@
+id: CR-037
+category: handoff
+title: "After Confluence publish, surfaces one-line note: screenshots are local-only"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [239, 239]
+preconditions:
+  user_input: "detailed comparison of Stake and Rollbit signup — publish to Confluence"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: atlassian+playwright
+pass_criteria:
+  - id: cr-confluence-screenshots-note
+    expected_message_substring: "Screenshots are local-only"
+  - id: confluence-call-uses-pkb-params
+notes: "Line 239 — after a successful Confluence publish, surface the one-line note explaining the local-only screenshot path and that Confluence inline images will render as broken (open the local .md instead)."

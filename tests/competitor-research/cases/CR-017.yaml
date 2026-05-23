@@ -1,0 +1,19 @@
+id: CR-017
+category: phase-c-followups
+title: "Phase C emits at most 3 follow-up questions"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [103, 113]
+preconditions:
+  user_input: "deep UX flow on Stake, 1Xbet, Rollbit, and Bc.Game's onboarding"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: playwright
+pass_criteria:
+  - id: phase-c-max-3
+  - id: total-questions-asked-max
+    max: 7
+notes: "Rule 1 — Phase C is capped at 3 follow-ups even when many unknowns survive."

@@ -1,0 +1,27 @@
+id: TB-006
+category: phase-a-inference
+title: "Improvement ticket-type inferred from 'redesign' in input"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [56, 60]
+preconditions:
+  user_input: "redesign the casino lobby filter bar to surface live dealer games"
+  jira_context: |
+    PR-470 / closed / "Casino home redesign" / component: home / file: components/home/lobby-filter.tsx
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: phase-a-infers-field
+    field: "Ticket type"
+    expected_value: "Improvement"
+    must_cite_phrase: "redesign"
+  - id: inferred-block-present
+    must: true
+  - id: inferred-includes-field
+    field: "Ticket type"
+    expected_value: "Improvement"
+    must_cite_phrase: "redesign"
+  - id: phase-b-skips
+    questions: ["Ticket type"]
+notes: "Phase A signal: 'improve' / 'enhance' / 'redesign' / 'update' → Improvement."

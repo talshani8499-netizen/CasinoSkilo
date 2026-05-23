@@ -1,0 +1,28 @@
+id: TB-013
+category: phase-b-core-questions
+title: "Each Phase B question has exactly 3 spec'd options verbatim"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [67, 87]
+preconditions:
+  user_input: "we should do something about the lobby"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: phase-b-question-shape
+    question: "Ticket type"
+    expected_header: "Ticket type"
+    expected_options_count: 3
+  - id: phase-b-options-match-spec
+    question: "Ticket type"
+    expected_options: ["New feature", "Improvement", "Bug or issue"]
+  - id: phase-b-question-shape
+    question: "Main user"
+    expected_header: "Main user"
+    expected_options_count: 3
+  - id: phase-b-options-match-spec
+    question: "Main user"
+    expected_options: ["End user", "Admin / internal", "Support / ops"]
+notes: "Verifies the core question bank labels for Ticket type and Main user match the spec verbatim, and that each question carries exactly 3 options (AskUserQuestion auto-adds Other)."

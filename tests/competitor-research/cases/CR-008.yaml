@@ -1,0 +1,24 @@
+id: CR-008
+category: phase-a-inference
+title: "Depth inferred as 'Quick scan' from '30-minute scan'"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [67, 73]
+preconditions:
+  user_input: "give me a quick 30-minute scan of how Stake and 1Xbet handle responsible gaming"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: phase-a-infers-field
+    field: "Depth"
+    expected_value: "Quick scan"
+    must_cite_phrase: "30-minute scan"
+  - id: phase-a-infers-field
+    field: "Competitors"
+    expected_value: "Stake, 1Xbet"
+    must_cite_phrase: "Stake and 1Xbet"
+  - id: phase-b-skips
+    questions: ["Depth", "Competitors"]
+notes: "'quick' / '30-minute' → Quick scan Depth (line 71)."

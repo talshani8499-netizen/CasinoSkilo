@@ -1,0 +1,17 @@
+id: PRD-022
+category: phase-c-followups
+title: "Phase C falls back to assume+flag when 3 concrete options aren't writeable"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [90, 101]
+preconditions:
+  user_input: "PRD for a new in-game responsible-gaming nudge — exact animation timing depends on an unfinished design exploration"
+  jira_context: |
+    PR-901 / open / "Responsible gaming nudges — discovery" / component: rg
+  confluence_context: null
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: phase-c-fallback-to-assume-and-flag
+    topic: "preferred nudge animation timing"
+notes: "Hard rule #6 — if Phase C can't enumerate 3 concrete options, skip the question and add an inline assumption + Open flag."

@@ -1,0 +1,20 @@
+id: TB-029
+category: output-structure
+title: "Inferred (not asked) block appears at top when Phase A inferred ≥1 field"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [129, 134]
+preconditions:
+  user_input: "the deposit button is broken on iOS"
+  jira_context: null
+  confluence_context: null
+  active_memory: null
+  mcp_state: none
+pass_criteria:
+  - id: inferred-block-present
+    must: true
+  - id: inferred-includes-field
+    field: "Ticket type"
+    expected_value: "Bug"
+    must_cite_phrase: "broken"
+notes: "Inferred block must appear above the User Story section, with one bullet per inference citing the trigger phrase."

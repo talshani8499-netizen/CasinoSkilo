@@ -1,0 +1,28 @@
+id: CR-033
+category: depth-adaptation
+title: "Detailed comparison → full matrix + key-surface screenshots + prioritized recs"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [145, 147]
+preconditions:
+  user_input: "detailed comparison of Stake, 1Xbet, Rollbit, Bc.Game on signup"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: playwright
+pass_criteria:
+  - id: cr-depth-matches-answer
+    depth: "Detailed comparison"
+    expected_findings_min: 5
+    expected_findings_max: 12
+    screenshots_required: true
+  - id: cr-depth-detailed-shape
+    matrix_required: true
+    screenshots_required: true
+    prioritized_recommendations_required: true
+  - id: cr-comparison-table-min-rows
+    min_rows: 4
+    required_row_labels_any_of: ["Homepage messaging", "Signup flow", "Pricing", "Trust signals", "Core feature"]
+notes: "Line 146 — Detailed comparison must produce a full comparison matrix, capture screenshots on key surfaces, and surface a prioritized recommendations list."

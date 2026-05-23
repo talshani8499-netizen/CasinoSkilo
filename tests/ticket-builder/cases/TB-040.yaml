@@ -1,0 +1,22 @@
+id: TB-040
+category: edge-case
+title: "Too-large request → one-sentence split proposal ABOVE the artifact, not buried in notes"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [167, 167]
+preconditions:
+  user_input: "rebuild the entire casino lobby, payments, KYC, VIP program, and responsible-gaming module for the German market launch"
+  jira_context: |
+    PR-470 / closed / "Casino home redesign" / component: home
+    PR-602 / open / "VIP cashback v2" / component: vip
+  confluence_context: |
+    Page: "DE Market Launch — Q4 PRD" / scope: lobby + payments + KYC + VIP + RG
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: too-large-request-proposes-split
+  - id: output-omits-banned-sections
+    banned_sections:
+      - "Builder notes"
+      - "Open Questions"
+notes: "Quality rule (line 167): when the request is clearly too large for one ticket, the skill says so in ONE sentence ABOVE the artifact and proposes a split. It must NOT bury the note in a 'Builder notes' or similar section at the end."

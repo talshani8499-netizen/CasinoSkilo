@@ -1,0 +1,30 @@
+id: CR-040
+category: edge-case
+title: "Memory edge cases: differs (confirm inline) / empty (cache after Phase B) / Playwright off / robots.txt"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [247, 247]
+preconditions:
+  user_input: "compare BetMGM and DraftKings signup flows to ours"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake (https://stake.com), 1Xbet (https://1xbet.com), Rollbit (https://rollbit.com), Bc.Game (https://bc.game)
+  mcp_state: none
+pass_criteria:
+  - id: cr-memory-differs-confirms-inline
+  - id: cr-memory-empty-caches-after-phase-b
+  - id: cr-playwright-unavailable-degrades-gracefully
+  - id: cr-robots-txt-blocked-inline-note
+  - id: cr-research-scope-notes-playwright-status
+    expected_substring_any_of: ["Playwright not available", "no screenshots captured"]
+notes: |
+  Combined memory-caching + degradation edge case (line 247).
+
+  Three sub-rules covered:
+  1. DIFFERS — runtime input names BetMGM/DraftKings (NOT in memory's Stake/1Xbet/Rollbit/Bc.Game list).
+     Skill must confirm inline with one message ('Cached competitors are Stake/1Xbet/Rollbit/Bc.Game — using BetMGM and DraftKings just for this run; update memory? [y/N]') and NOT overwrite silently.
+  2. EMPTY — covered by sub-criterion cr-memory-empty-caches-after-phase-b: if memory had been empty, Phase B's Competitors answer would append a **Competitors:** line to memory before rendering the report.
+  3. PLAYWRIGHT off — mcp_state=none. §1 Research Scope must note 'Playwright not available — no screenshots captured' and the report still renders (text only).
+  4. ROBOTS.TXT — if BetMGM blocks scraping or geofences, the report includes an inline 'couldn't access <page>' note and continues.

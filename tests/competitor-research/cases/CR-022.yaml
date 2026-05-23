@@ -1,0 +1,19 @@
+id: CR-022
+category: phase-c-followups
+title: "Phase C respects CR-specific priority order (region > source mix > time horizon > auth)"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [111, 113]
+preconditions:
+  user_input: "compare loyalty programs on Stake and Rollbit"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: playwright
+pass_criteria:
+  - id: cr-phase-c-priority-order-respected
+    expected_priority_order: ["region/market scope", "source mix", "time horizon", "authentication boundary"]
+  - id: phase-c-max-3
+notes: "Rule 5 — multiple unknowns survive (region, source mix, time horizon, auth boundary). Phase C picks the top of the priority list first."

@@ -1,0 +1,21 @@
+id: CR-036
+category: handoff
+title: "Bet on it + atlassian MCP → Confluence create with PKB spaceId/parentId and markdown format"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [234, 238]
+preconditions:
+  user_input: "detailed comparison: Stake, 1Xbet, Rollbit, Bc.Game on signup — publish when done"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake, 1Xbet, Rollbit, Bc.Game
+  mcp_state: atlassian+playwright
+pass_criteria:
+  - id: mcp-tool-lookup-pattern
+    target: "confluence-create-page"
+    expected_regex: 'mcp__.*(atlassian|confluence).*'
+    expected_verbs: ["createPage", "create_page", "createConfluencePage"]
+  - id: confluence-call-uses-pkb-params
+notes: "Lines 234–238 — Bet on it branch must call the Atlassian MCP's Confluence create-page tool with spaceId=772571142, parentId=772571521, contentFormat=markdown, title matching the report title."

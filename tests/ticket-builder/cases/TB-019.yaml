@@ -1,0 +1,20 @@
+id: TB-019
+category: phase-c-followups
+title: "Phase C skips a question that Jira context already answers (rule 3)"
+references:
+  - skill: ticket-builder
+  - skill_md_lines: [95, 95]
+preconditions:
+  user_input: "add a VIP progress bar to the casino home"
+  jira_context: |
+    PR-470 / closed / "Casino home redesign" / component: home / file: components/home/banner.tsx
+    PR-481 / open / "Smartico LOYALTY_POINTS_UPDATE wiring" / component: integrations / status: in progress / decision: use Smartico LOYALTY_POINTS_UPDATE as canonical source for points-to-next-tier
+  confluence_context: |
+    Page: "VIP Program v3 — Data Sources" / decision: Smartico is the source of truth for tier progress until PS-native VIP API ships in Q4
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: phase-c-skips-when-context-answers
+    topic: "data source for points-to-next-tier"
+    inline_assumption_expected: true
+notes: "Rule 3: Confluence + Jira already resolve the data-source decision. Phase C must NOT ask about it — instead, the answer is converted to an inline assumption in the ticket body."

@@ -1,0 +1,18 @@
+id: PRD-031
+category: output-structure
+title: "§12 Suggested Jira Breakdown includes a sub-epic title plus child ticket rows"
+references:
+  - skill: prd-writer
+  - skill_md_lines: [170, 178]
+preconditions:
+  user_input: "PRD for a Smartico-driven cashback engine — propose the Jira split"
+  jira_context: |
+    PR-280 / open / "Promotions umbrella" / epic
+    PR-820 / open / "Smartico cashback engine" / component: crm
+  confluence_context: null
+  active_memory: null
+  mcp_state: atlassian
+pass_criteria:
+  - id: prd-section-12-has-sub-epic-and-children
+    min_child_rows: 1
+notes: "§12 must name a sub-epic AND list child ticket rows the Double down chain can iterate over."

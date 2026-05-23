@@ -1,0 +1,27 @@
+id: CR-011
+category: phase-a-inference
+title: "Multi-signal conflict: 'quick deep dive' resolves to one Depth or stays uninferred"
+references:
+  - skill: competitor-research
+  - skill_md_lines: [67, 73]
+preconditions:
+  user_input: "I want a quick deep dive on Stake's signup flow with every screenshot"
+  jira_context: null
+  confluence_context: null
+  active_memory: |
+    # 21com
+    **Competitors:** Stake (https://stake.com), 1Xbet (https://1xbet.com), Rollbit (https://rollbit.com), Bc.Game (https://bc.game)
+  mcp_state: playwright
+pass_criteria:
+  - id: phase-a-resolves-conflict
+    field: "Depth"
+    acceptable_outcomes: ["Quick scan", "Deep UX flow", "<not inferred>"]
+  - id: phase-a-infers-field
+    field: "Focus"
+    expected_value: "Onboarding"
+    must_cite_phrase: "signup"
+  - id: phase-a-infers-field
+    field: "Competitors"
+    expected_value: "Stake"
+    must_cite_phrase: "Stake"
+notes: "Conflicting Depth signals: 'quick' suggests Quick scan but 'deep dive' + 'every screenshot' suggests Deep UX flow. Skill must resolve OR fall back to Phase B."

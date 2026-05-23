@@ -1,6 +1,6 @@
 ---
 name: competitor-research
-description: Use when a PM wants structured competitor research for a PRD, roadmap decision, redesign, or strategic positioning. Reads competitor list from auto-memory, scans Jira/Confluence for company baseline, adaptively asks only the questions input doesn't answer, optionally uses Playwright for public-page browsing and screenshots, and returns a lean 7-section comparison report. Ends with a "Ready To Gamble On It?" handoff that publishes to Confluence (Product Knowledge Base space) or saves markdown only. This skill is research-only — it does NOT create Jira tickets. Use prd-writer or ticket-builder downstream if research findings should turn into work.
+description: Use when a PM wants a structured competitor research report — returns a lean 7-section comparison report for PRDs, roadmap decisions, redesigns, or strategic positioning. Reads competitor list from auto-memory, scans Jira/Confluence for company baseline, adaptively asks only the questions input doesn't answer, and optionally uses Playwright for public-page browsing and screenshots. Ends with a "Ready To Gamble On It?" handoff that publishes to Confluence (Product Knowledge Base space) or saves markdown only. This skill is research-only — it does NOT create Jira tickets. Use prd-writer or ticket-builder downstream if research findings should turn into work.
 ---
 
 # Competitor Research
@@ -65,8 +65,8 @@ Before asking anything, attempt to infer each of the 4 core answers from the use
 
 | Core question | Inference signals |
 |---|---|
-| **Focus** | "signup", "registration", "onboarding" → Onboarding. "pricing", "tiers", "promo", "bonus" → Pricing. "homepage", "landing" → Homepage. "checkout", "deposit", "withdraw" → Checkout flow. Named feature surface (e.g. "game lobby", "VIP page") → Core feature experience. |
-| **Competitors** | If active product memory (`~/.claude/memory/<project-slug>.md`) has a `**Competitors:**` line → use it. If user named specific competitors in the prompt → use those. Otherwise ask. |
+| **Focus** | "signup", "registration", "onboarding" → Onboarding. "pricing", "tiers", "promo", "bonus" → Pricing. "homepage", "landing" → Homepage. "checkout", "deposit", "withdraw" → Checkout flow. "trust signals", "social proof", "reviews", "ratings", "badges" → Core feature experience (trust surface). Named feature surface (e.g. "game lobby", "VIP page") → Core feature experience. |
+| **Competitors** | If active product memory (`~/.claude/memory/<project-slug>.md`) has a `**Competitors:**` line → infer here and skip the Phase B Competitors question entirely. **This is the canonical reuse path** — when memory has a list, do NOT fall through to Phase B for Competitors. If user named specific competitors in the prompt (and memory is empty) → use those. Otherwise ask in Phase B. |
 | **Output emphasis** | "leadership update", "exec summary", "one-pager" → Strategic recommendations. "screenshots", "visual", "annotated" → Screenshots + UX notes. Otherwise → Comparison + opportunities. |
 | **Depth** | "quick", "fast", "scan", "30 min" → Quick scan. "deep", "step-by-step", "every screen" → Deep UX flow. Otherwise → Detailed comparison. |
 
@@ -86,6 +86,8 @@ Use the 4 core questions below but ONLY for the ones Phase A left unanswered. Sk
   - Memory default — Use the competitor list from active product memory (substitute the real names from memory into this label at runtime)
   - Memory + best-in-class — Memory list plus 2–3 indirect / aspirational references
   - Custom list — I'll provide URLs at runtime
+
+  > **Note:** The memory-substitution label above is a **fallback path** — it only applies when Phase A could not infer Competitors (memory empty AND user did not name competitors in the prompt). The primary memory-reuse path is Phase A; when memory has a `**Competitors:**` line, Phase A infers Competitors and this Phase B question is skipped entirely.
 
 - **Output emphasis** — header: `Output` — "What should the report emphasize?"
   - Comparison + opportunities — Side-by-side matrix + gap analysis
@@ -138,7 +140,7 @@ If Playwright MCP tools are available (`mcp__playwright__browser_navigate`, `mcp
 - Never bypass paywalls, authentication, bot protection, or restricted areas
 - Do not log in to competitor products
 - Do not scrape at high volume — limit to ~5 pages per competitor per run
-- Respect robots.txt; if blocked, note "couldn't access <page>" in the report and skip
+- Public pages only. If a page returns HTTP 403/451 or shows a CAPTCHA / bot-detection wall, note `couldn't access <page> — <reason>` inline in §5 UX Flow Notes and skip. This skill does NOT perform robots.txt pre-flight (Playwright does not enforce robots.txt natively); rely on the page response.
 
 ## Research depth levels
 Adapt output to the Depth answer:
@@ -221,7 +223,7 @@ Default 7-section structure (adapt to company format when found in Confluence):
 ## Handoff — "Ready To Gamble On It?"
 After the report is rendered, save it to disk and ask the user for the final call. Steps in order:
 
-1. **Save the markdown.** Write the full report markdown to `~/Downloads/competitor-research/<focus-slug>-<YYYY-MM-DD>.md`. Create the directory if it does not exist. Screenshots already live in the `screenshots/` subdir from Playwright.
+1. **Save the markdown.** Write the full report markdown to `~/Downloads/competitor-research/<focus-slug>/<focus-slug>-<YYYY-MM-DD>.md`. Create the `<focus-slug>` directory if it does not exist. Screenshots already live in `<focus-slug>/screenshots/` from Playwright (same parent directory as the markdown — the relative `screenshots/<file>.png` references in §5 resolve correctly).
 2. **Ask the user using AskUserQuestion.**
     - Question: `Ready To Gamble On It?`
     - Header: `Gamble?`
@@ -237,6 +239,13 @@ After the report is rendered, save it to disk and ask the user for the final cal
       - `title` = the report title (e.g. `Competitor Research Report: Onboarding`)
       - `body` = the full report markdown verbatim
       After the call, surface a one-line note: `Screenshots are local-only at ~/Downloads/competitor-research/<slug>/screenshots/; the Confluence page's inline image references will render as broken — open the local .md to see them rendered.` Return the new page URL.
+
+      **Then, if N ≥ 1 screenshots exist in the `screenshots/` subdir,** present one bonus AskUserQuestion:
+      - Question: `Upload <N> screenshots to the Confluence page as attachments? (fixes the inline image references)`
+      - Header: `Attach screenshots?`
+      - Options:
+        - `Upload all` — Iterate the screenshots/ directory and attach each via the Atlassian MCP's create-attachment tool; rewrite the inline `![desc](screenshots/<file>.png)` references in the published page to point at the Confluence attachment URLs
+        - `Upload none` — Skip attachment upload; the local .md remains the canonical screenshot bundle
     - **`Bet on it` + Atlassian MCP NOT connected:** Report `Atlassian MCP not connected — saved markdown only at <path>` and stop.
     - **`Hold the chip`:** Confirm `Saved at <path>. No Confluence page created.`
 4. **Always** end by printing the absolute path to the saved markdown file so the user can copy/paste it anywhere.
@@ -244,4 +253,12 @@ After the report is rendered, save it to disk and ask the user for the final cal
 This skill is research-only. It does NOT create Jira tickets. If the findings should turn into work, hand the report's §7 Gaps & Opportunities to `prd-writer` (for a full PRD on a gap) or to `ticket-builder` (for a one-off ticket) as a separate, follow-up invocation — never inside this skill.
 
 ### Notes on memory caching
-When the PM provides a competitor list at runtime (because memory had none, or chose `Custom list` in Phase B), append it to `~/.claude/memory/<project-slug>.md` so the next invocation reuses it without asking. Create the `~/.claude/memory/` directory and the file if they do not exist. Format: a `**Competitors:**` line listing names + URLs. Do not overwrite existing competitor lists silently — confirm with one inline message if the existing memory list differs from the runtime input.
+When the PM provides a competitor list at runtime (because memory had none, or chose `Custom list` in Phase B), append it to `~/.claude/memory/<project-slug>.md` so the next invocation reuses it without asking. Create the `~/.claude/memory/` directory and the file if they do not exist. Format: a `**Competitors:**` line listing names + URLs.
+
+**When runtime input differs from the cached list, do NOT silently overwrite memory.** Present this AskUserQuestion:
+- Question: `The cached competitor list differs from your runtime input. Which set should drive this run?`
+- Header: `Competitors?`
+- Options:
+  - `Use cached` — Use the cached competitors (`<list-from-memory>`) and ignore runtime input
+  - `Use runtime + update memory` — Use runtime input (`<list-from-input>`) and overwrite the memory cache
+  - `Use runtime, keep memory` — Use runtime input just for this run; leave the memory cache untouched

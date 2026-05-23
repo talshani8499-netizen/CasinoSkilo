@@ -27,3 +27,4 @@ skills/competitor-research/competitors.json
 
 # Claude local state
 .claude/local/
+.claude/settings.local.json

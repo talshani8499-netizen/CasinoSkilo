@@ -50,7 +50,7 @@ Classify everything found as **Facts** (with source link), **Assumptions** (clea
 The skill is an **adaptive interview**, not a fixed form. Run the four phases below in order. All questions are asked via **AskUserQuestion** (the in-terminal interactive chooser, one question at a time). The tool auto-adds an "Other" option, so provide exactly 3 concrete option labels per question. Total questions asked across all phases must never exceed 7 (any combination of core + adaptive).
 
 ### Phase A — Infer answers from input + context
-Before asking anything, attempt to infer each of the 4 core answers from the user's input and the Jira/Confluence context scan. Mark an answer **inferred** only if the signal is unambiguous; otherwise fall through to Phase B for that question.
+Before asking anything, attempt to infer each of the 4 core answers from the user's input and the Jira/Confluence context scan. Mark an answer **inferred** only if the signal is unambiguous; otherwise fall through to Phase B for that question. **Conflict rule:** when signals from multiple rows fire for the same field (e.g. input contains both "fix" and "add new"), mark the field as Not inferred and fall through to Phase B. Do not invent a tie-break.
 
 | Core question | Inference signals |
 |---|---|
@@ -58,6 +58,7 @@ Before asking anything, attempt to infer each of the 4 core answers from the use
 | **Main user** | "player", "user", "customer" → End user. "admin", "back office", "BO", "CMS" → Admin. "CS", "support", "ops", "VIP team", "agent" → Support/ops. |
 | **Main goal** | "fix", "broken", "blocking", "regression" → Fix friction. "drive deposits", "retention", "GGR", "compliance", "legal" → Business need. otherwise → Improve UX. |
 | **Connection** | reference to existing component/file/flow → Changes or Extends. "new flow", "from scratch", "doesn't exist today" → New flow. |
+| **Needs flow diagram** | "bug", "copy change", "content tweak", "analytics-only", "config", "toggle" → No (skip §User Flow entirely). "new feature", "new flow", "navigation change", "multi-step", "admin task" → Yes. Otherwise → Not inferred, fall through to Phase C. |
 
 For each inferred answer, record the exact phrase that revealed it — that phrase later appears in the ticket's "Inferred (not asked)" block so the user can audit.
 
@@ -100,7 +101,17 @@ After core is settled, scan the input + Jira/Confluence context for **material u
    3. Behavioral choice (replace vs overlay, sync vs async)
    4. Trigger / cadence (every event vs first only, real-time vs polled)
    5. Permissions / segments (all users vs subset)
-6. **If you cannot write 3 concrete option labels for a given unknown, the unknown is not material — assume + flag in the ticket, do not ask.**
+6. **If you cannot write 3 concrete option labels for a given unknown, the unknown is not material — assume + flag in the ticket, do not ask.** Inline assumption format: `> **Assumption:** <statement>. **Flag:** <one-line reason this needs confirmation>.` Place inside the relevant Description or DoD bullet — never in a separate section.
+
+**Phase C fallback for the new `Needs flow diagram` field:** if Phase A could not infer it (input was ambiguous), emit one AskUserQuestion:
+- Question: `Include an ASCII user flow diagram?`
+- Header: `Flow?`
+- Options:
+  - `Yes — happy path only` — Single-track flow with no branches
+  - `Yes — with branches and decisions` — Full flow with decision diamonds
+  - `No — skip the flow diagram` — Omit §User Flow entirely
+
+This counts against the Phase C 3-follow-up cap.
 
 **Worked example (a VIP progress bar ticket on 21.com — these are the kind of follow-ups the skill should generate, not generic templates):**
 - *"Where does points-to-next-tier come from?"* — A: Smartico `LOYALTY_POINTS_UPDATE` event / B: PS-native VIP API (currently being scoped) / C: Hybrid: Smartico now, abstract behind a service, swap to PS later.
@@ -113,7 +124,7 @@ After core is settled, scan the input + Jira/Confluence context for **material u
 - "How should it look?" (vague, no concrete options possible)
 
 ### Phase D — Output
-Proceed to the Output section below. If anything was inferred in Phase A, surface it in the "Inferred (not asked)" block at the top of the ticket so the user can audit and correct.
+Proceed to the Output section below. If anything was inferred in Phase A, surface the `Inferred (not asked)` block immediately after the 4 metadata header lines (Ticket type / Parent epic / Component / Labels), before `## User Story`. See the template below for exact placement.
 
 ## Output
 Keep the ticket lean. Produce **only** the sections below — nothing else. Do not add Background, Context, Problem, Desired Outcome, Scope, Functional Requirements, Edge Cases, Analytics, Dependencies, Open Questions, or "Builder notes". Adapt to the company's existing ticket format if Jira context reveals a different convention.
@@ -125,7 +136,7 @@ Keep the ticket lean. Produce **only** the sections below — nothing else. Do n
     **Component:** [file or product area]
     **Labels:** [suggested labels]
 
-    > **Inferred (not asked):** _(include this block only if Phase A inferred at least one core answer; one bullet per inference, citing the exact phrase from input or context that revealed it)_
+    > **Inferred (not asked):** _(include this block only if Phase A inferred at least one core answer; one bullet per inference, citing the exact phrase from input or context that revealed it. **Hard cap: 4 bullets.** If Phase A inferred 5+ fields, show the 4 most-actionable by this priority order — Ticket type > Connection > Main user > Main goal > Needs flow diagram — and append `_(+N more inferred — see context for full set)_` as an italic line below the bullets.)_
     > - Ticket type: Bug — from "fix the bug where..."
     > - Main user: End user — from "guest profiles"
 
@@ -133,14 +144,19 @@ Keep the ticket lean. Produce **only** the sections below — nothing else. Do n
     As a [user type], I want to [action], so that [value].
 
     ## Description
-    [2–4 sentences describing what we are building or fixing, in plain product language. For features/improvements: what the change is and the value it delivers. For bugs: what is broken, where, and what the correct behavior should be. No background, no history, no rationale beyond the value line — just a crisp statement of the work.]
+    [2–4 sentences describing what we are building or fixing, in plain product language. For features/improvements: what the change is and the value it delivers. For bugs: what is broken, where, and what the correct behavior should be. No background, no history, no rationale beyond the value line — just a crisp statement of the work. If your description exceeds 4 sentences, audit whether you have smuggled in Background, Rationale, or Context that the banned-sections list forbids.]
 
     ## User Flow
+    _(Conditional — include this section ONLY if `Needs flow diagram = Yes` from Phase A or Phase C. If `No`, omit the entire `## User Flow` heading and code block from the output — do not render as "N/A" or as an empty section.)_
+
     [ASCII flowchart of the happy-path flow inside a fenced code block. Keep it tight — one diagram, no prose steps before or after unless absolutely needed for clarity. Use box-drawing characters (┌─┐│└┘├┤┬┴) and arrows (▼ → ─▶). Branches/decisions render as ┌─────┐ with a `?` and labeled outgoing arrows.]
 
     ## Definition of Done
+    _(3–5 items. Never 6+. If you cannot write 3 essential items, name the gap. If you wrote 6+, cut the non-essential ones — the ticket is not a QA test plan.)_
+
     - [DoD item 1]
     - [DoD item 2]
+    - [DoD item 3]
 
 ## Handoff — "Ready To Gamble On It?"
 After the ticket is rendered, save it to disk and ask the user for the final call. Steps in order:
@@ -166,3 +182,17 @@ After the ticket is rendered, save it to disk and ask the user for the final cal
 - If the request is too large, say so in one sentence above the ticket and propose splitting — do not bury this in a notes section
 - Output must be copy-pasteable into Jira (markdown)
 - Do NOT add any meta-commentary, "builder notes", or post-ticket reflections. The ticket ends at Definition of Done.
+
+## PRD-driven mode (when chained by prd-writer Double down)
+
+When `prd-writer` invokes this skill as part of its Double-down chain, run in PRD-driven mode:
+
+- **Skip Phase B entirely.** No core questions to the user.
+- **Skip Phase C entirely.** No adaptive follow-ups (including the `Needs flow diagram` fallback question).
+- **Phase A infers all 5 core fields from the PRD body.** Every inference must cite the PRD section it came from (e.g. `from PRD §10 FR-2`, `from PRD §8 Functional`). Never invent context.
+- **`Inferred (not asked)` block is required** and cites the PRD section for each entry. The 4-bullet hard cap still applies.
+- **If the §12 row is too thin to infer a ticket type** (e.g. just "Misc — TBD"), default to type `Task` with an inline `> **Open:** ticket type not inferable from PRD §12 — confirm with owner.` line in the Description.
+- **At handoff, auto-choose `Bet on it`.** Do NOT call AskUserQuestion. Use the parent epic key supplied by prd-writer.
+- **Per-chain question count is exactly zero.** A 14-row §12 produces 14 child tickets with zero user questions.
+
+`prd-writer` authoritatively governs the upstream contract at `prd-writer/SKILL.md` (Handoff → Double down branch). This section is the downstream half; the two must stay in sync.

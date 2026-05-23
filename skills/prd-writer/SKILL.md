@@ -1,6 +1,6 @@
 ---
 name: prd-writer
-description: Use when a PM wants to turn an idea, initiative, or discovery outcome into a full PRD. Scans Jira/Confluence for related context, adaptively asks only the questions input doesn't already answer, adds up to 3 context-derived follow-ups for real unknowns, and returns a maturity-adapted PRD. Ends with a "Ready To Gamble On It?" handoff that can push to Confluence (Product Knowledge Base space) and optionally chain the ticket-builder skill to create the Jira epic + child tickets, or save markdown only.
+description: Use when a PM wants to turn an idea, initiative, or discovery outcome into a full PRD. Scans Jira/Confluence for related context, adaptively asks only the questions input doesn't already answer, adds up to 3 context-derived follow-ups for real unknowns, and returns a maturity-adapted PRD. Ends with a "Ready To Gamble On It?" handoff that can push to Confluence (Product Knowledge Base space) and optionally chain the **ticket-builder** skill via the **Double down** option to create the Jira epic + child tickets, or save markdown only.
 ---
 
 # PRD Writer
@@ -45,17 +45,17 @@ Search whatever Jira/Confluence MCP tools are available. Look for:
 Classify findings as **Facts** (with source link), **Assumptions** (clearly marked), or **Missing** (called out). If no MCP tools are connected, skip silently and proceed.
 
 ## Adaptive questions
-The skill is an **adaptive interview**, not a fixed form. Run the four phases below in order. All questions are asked via **AskUserQuestion** (the in-terminal interactive chooser, one question at a time). The tool auto-adds an "Other" option, so provide exactly 3 concrete option labels per question. Total questions asked across all phases must never exceed 7 (any combination of core + adaptive).
+The skill is an **adaptive interview**, not a fixed form. Run the four phases below in order. All questions are asked via **AskUserQuestion** (the in-terminal interactive chooser, one question at a time). The tool auto-adds an "Other" option, so provide concrete option labels per question (3 for most questions; 4 for `Main problem` since the Retention option is a first-class value). Total questions asked across all phases must never exceed 7 (any combination of core + adaptive). **The 7-question cap is per single skill invocation by the user. Chained `ticket-builder` calls in PRD-driven mode are zero-question by contract, so the cap is never breached by the chain itself.**
 
 ### Phase A — Infer answers from input + context
-Before asking anything, attempt to infer each of the 4 core answers from the user's input and the Jira/Confluence context scan. Mark an answer **inferred** only if the signal is unambiguous; otherwise fall through to Phase B for that question.
+Before asking anything, attempt to infer each of the 4 core answers from the user's input and the Jira/Confluence context scan. Mark an answer **inferred** only if the signal is unambiguous; otherwise fall through to Phase B for that question. **Conflict rule:** when signals from multiple rows fire for the same field (e.g. input contains both "we already have" and "from scratch"), mark the field as Not inferred and fall through to Phase B. Do not invent a tie-break.
 
 | Core question | Inference signals |
 |---|---|
 | **Maturity** | "we already have", "v2 of", existing PRD found, live Jira epic → Existing feature. "from scratch", "thinking about", "not sure", "exploring" → Initial idea. "spec out", "ready to build", "write the requirements", "we're committing to" → Clear direction. |
-| **Main user** | "player", "user", "customer" → End user. "admin", "back office", "BO", "CMS" → Admin. "CS", "support", "ops", "VIP team", "agent" → Support/ops. |
-| **Main problem** | "blocked", "can't", "confused", "stuck" → Blocked/confused. "drop", "abandon", "churn", "not converting" → Drop-off. "manual", "slow", "tedious", "spreadsheets", "no tool for" → Internal workflow. |
-| **Success signal** | "convert", "activate", "sign up", "deposit", "GGR" → Conversion. "fewer tickets", "support load", "complaints" → Reduced friction. "DAU", "retention", "sessions", "engagement", "stickiness" → Engagement. |
+| **Main user** | "player", "user", "customer" → End user. "admin", "back office", "BO", "CMS" → Admin. "CS", "support", "ops", "VIP team", "agent" → Support/ops. **Sub-segment hints:** VIP / high-roller / "whale" signals → End user with `vip` tag surfaced in User Story. CRM operator / campaign manager / "lifecycle" signals → Admin / internal with `crm` tag surfaced in User Story. |
+| **Main problem** | "blocked", "can't", "confused", "stuck" → Blocked/confused. "drop", "abandon", "churn", "not converting" → Drop-off. "manual", "slow", "tedious", "spreadsheets", "no tool for" → Internal workflow. "retention", "lapsed", "re-engage", "win-back", "reactivation" → Retention / re-engagement. |
+| **Success signal** | "convert", "activate", "sign up", "deposit" → Conversion. **GGR-specific signals** ("GGR", "NGR", "revenue lift", "ARPU") → Conversion with `revenue` sub-tag (surface in §10 Primary Metric). "fewer tickets", "support load", "complaints" → Reduced friction. "DAU", "retention", "sessions", "engagement", "stickiness" → Engagement. |
 
 For each inferred answer, record the exact phrase that revealed it — that phrase later appears in the PRD's "Inferred (not asked)" block so the user can audit.
 
@@ -78,6 +78,7 @@ Use the 4 core questions below but ONLY for the ones Phase A left unanswered. Sk
   - Blocked / confused — Users can't complete or understand the flow
   - Drop-off — Users not converting or churning
   - Internal workflow — Internal teams need a better tool or process
+  - Retention / re-engagement — Re-activate lapsed users or extend lifecycle
 
 - **Success signal** — header: `Success` — "What is the main success signal?"
   - Conversion — Higher activation / conversion / deposit rate
@@ -185,7 +186,7 @@ After the PRD is rendered, save it to disk and ask the user for the final call. 
       - `contentFormat` = `markdown`
       - `title` = the PRD title (e.g. `PRD: Login with Telegram`)
       - `body` = the full PRD markdown verbatim
-      Return the new page URL. If the create fails, report the error and confirm the markdown file is still saved.
+      Return the new page URL. **If the create fails with HTTP 404 (parent moved/deleted), retry once without `parentId` and report which space-root the page landed at. If the second attempt also fails, save the markdown locally and report the error — do not silently drop.**
     - **`Bet on it` + Atlassian MCP NOT connected:** Report `Atlassian MCP not connected — saved markdown only at <path>` and stop.
     - **`Hold the chip`:** Confirm `Saved at <path>. No Confluence page created.`
     - **`Double down` + Atlassian MCP connected:**
@@ -195,10 +196,19 @@ After the PRD is rendered, save it to disk and ask the user for the final call. 
          - Input: the row's title + type + owner area.
          - Upstream context: the full PRD body, supplied as if it were the Jira/Confluence scan output (treat the PRD as Facts).
          - Parent: the sub-epic key created in step 2 — ticket-builder pushes children under this epic.
-         - **Hard instruction to ticket-builder:** "PRD-driven mode — skip Phase B (no core questions) and Phase C (no adaptive follow-ups). Phase A infers all four core answers from the PRD body; surface them in the ticket's `Inferred (not asked)` block citing the PRD section (e.g. `from PRD §10 FR-2`). If a material unknown is unanswered by the PRD, follow your own rule: assume + flag inline. Do NOT call AskUserQuestion for any ticket in this batch. At the handoff, auto-choose `Bet on it` to push to Jira under the supplied parent epic — do NOT ask the user."
+         - **Hard instruction to ticket-builder:** "PRD-driven mode — skip Phase B (no core questions) and Phase C (no adaptive follow-ups). Phase A infers all five core answers from the PRD body (including `Needs flow diagram`); surface them in the ticket's `Inferred (not asked)` block citing the PRD section (e.g. `from PRD §10 FR-2`). If a material unknown is unanswered by the PRD, follow your own rule: assume + flag inline. Do NOT call AskUserQuestion for any ticket in this batch. At the handoff, auto-choose `Bet on it` to push to Jira under the supplied parent epic — do NOT ask the user."
+         - **This contract is authoritatively mirrored in `ticket-builder/SKILL.md → PRD-driven mode`. This skill enforces upstream; ticket-builder enforces downstream. The two sections must stay in sync — edits to one require the matching edit on the other.**
       4. Return the Confluence URL, the parent sub-epic key, and the full list of created child ticket keys.
     - **`Double down` + Atlassian MCP NOT connected:** Same fallback as `Bet on it`.
 4. **Always** end by printing the absolute path to the saved markdown file so the user can copy/paste it anywhere.
 
 ### Notes on the Double down chain
 The PRD is the source of truth for the chained ticket-builder calls — every Phase A inference must cite the PRD section it came from, never invent context. The user is asked exactly **one** question during this branch (the Gamble handoff itself), regardless of how many child tickets §12 contains. A PRD with 14 child tickets produces 14 Jira tickets + 1 epic + 1 Confluence page from a single user click. If the PRD §12 row is too thin for Phase A to infer a ticket type (e.g. just "Misc — TBD"), ticket-builder defaults to type=Task with an inline `Open: ticket type not inferable from PRD §12 — confirm with owner` line in the ticket body, and proceeds.
+
+**Hard cap: 25 child tickets per chain.** If §12 has 26+ rows, abort the chain BEFORE making any Jira call and present this AskUserQuestion:
+- Question: `This PRD has <N> child tickets in §12, which exceeds the Double-down chain cap of 25. How would you like to proceed?`
+- Header: `Chain too long?`
+- Options:
+  - `Split the PRD` — Abort the chain; split §12 into multiple sub-PRDs and re-run Double-down per sub-PRD
+  - `Bet on it instead` — Publish the Confluence page only and create the Jira tickets manually
+  - `Cancel` — Stop the handoff entirely
